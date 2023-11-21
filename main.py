@@ -6,8 +6,9 @@ from collections.abc import Iterable
 from learn.learn01 import learn_method_13, learn_method_09, learn_method_10, learn_method_11, learn_method_12, \
     learn_method_14, learn_method_15, learn_method_16, learn_method_17, learn_method_18, learn_method_19, \
     learn_method_20, learn_method_21, learn_method_22, learn_method_23, learn_method_24, learn_method_25, \
-    learn_method_26, learn_method_27, learn_method_28, learn_method_29, learn_method_30, learn_method_31
+    learn_method_26, learn_method_27, learn_method_28, learn_method_29, learn_method_30
 from model.custom import Custom
+from utils.jsonutils import learn_json
 
 # 控制台输入操作
 # s = input('birth: ')
@@ -118,4 +119,6 @@ from model.custom import Custom
 
 # print('OS系统操作-------------------------------------------------------')
 # learn_method_30()
-learn_method_31()
+
+
+learn_json()
