@@ -1,25 +1,28 @@
 import functools
 import json
 import logging
+import math
 import os
+import random
+import sys
+import time
 import types
 from collections.abc import Iterable
 from functools import reduce
 from io import StringIO, BytesIO
 
+import numpy
+
+from model import custom
 from model.Chain import Chain
-from model.Animal import Animal
-from model.Cat import Cat
-from model.Person import Person
-from model.Student import Student
-from model.Student1 import Student1
-from model.custom import Custom
+from model.Animal import Animal, Cat, Dog
 import hashlib
+
+from model.models import Teacher, Student, Person
 
 
 def learn_method_01():
-    print("learn_method_01")
-    print('python的数据类型分为：整数，浮点数，字符串，布尔值，还有个特殊值 None（空值）-----------------------')
+    print('01.python的数据类型分为：整数，浮点数，字符串，布尔值，还有个特殊值 None（空值）-----------------------')
     # name =input('please enter your name:')
     name = "username"
     print("print的输出", name)
@@ -41,8 +44,7 @@ def learn_method_01():
 
 
 def learn_method_02():
-    print("learn_method_02")
-    print('字符编码转换-------------------------------')
+    print('02.字符编码转换-------------------------------')
     print('字符 中 对应的编码==', ord('中'))
     print('字符 文 对应的编码==', ord('文'))
     print('数字 20013 对应的字符编码==', chr(20013))
@@ -59,8 +61,7 @@ def learn_method_02():
 
 
 def learn_method_03():
-    print("learn_method_03")
-    print('字符串格式化，是字符串与变量的格式化拼接----------------------------------')
+    print('03.字符串格式化，是字符串与变量的格式化拼接----------------------------------')
     name = '拼接的是字符串变量：world'
     money = 88.0
     money1 = 99
@@ -85,8 +86,7 @@ def learn_method_03():
 
 
 def learn_method_04():
-    print("learn_method_04")
-    print('list与tuple----------------------------------')
+    print('04.list与tuple----------------------------------')
     print('list是python 内置的一种列表数据类型，有序集合，可随时添加、删除，各个元素可以是不同类型----------------')
     names = ['刘一', '陈二', '张三', '李四', '王五', '赵六']
     # ['孙七','周八','吴九', '郑十']
@@ -125,47 +125,8 @@ def learn_method_04():
     print(f"输出 names_tuple 的元素=={names_tuple}")
 
 
-def if_else(age):
-    if age <= 10:
-        print(f'<= 10 years old: {age}')
-    elif age > 10 or age < 19:
-        print('11~18 years old.')
-    else:
-        print('大于18 years old.')
-
-
-def match_case(age):
-    match age:
-        case x if x < 10:
-            print(f'匹配模式1：< 10 years old: {x}')
-        case 10:
-            print('匹配模式2：10 years old.')
-        case 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18:
-            print('匹配模式3：11~18 years old.')
-        case 19:
-            print('匹配模式4：19 years old.')
-        case _:
-            print('匹配模式：not sure.')
-
-
-def match_case_01(ars):
-    match ars:
-        # 如果仅出现gcc，报错:
-        case ['gcc']:
-            print('匹配模式1：gcc: missing source file(s).')
-        # 出现gcc，且至少指定了一个文件:
-        case ['gcc', file1, *files]:
-            print('匹配模式2：gcc compile: ' + file1 + ', ' + ', '.join(files))
-        # 仅出现clean:
-        case ['clean']:
-            print('匹配模式3：clean')
-        case _:
-            print('匹配模式4：invalid command.')
-
-
 def learn_method_05():
-    print("learn_method_05")
-    print('dict 等同于 map，用大括号定义，内部是 key:value 的形式-------------------------------')
+    print('05.dict 等同于 map，用大括号定义，内部是 key:value 的形式-------------------------------')
     dict_map = {'username': "刘一", 'phone': 18531022252, 'addresses': "北京市"}
     # key-value 形式直接添加
     print(f'字典dict的类=={dict_map.__class__}')
@@ -181,8 +142,7 @@ def learn_method_05():
 
 
 def learn_method_06():
-    print("learn_method_06")
-    print('set集合，是无序的，不重复的，可以直接用大括号定义----------------------------------')
+    print('06.set集合，是无序的，不重复的，可以直接用大括号定义----------------------------------')
     names = ['刘一', '陈二', '张三', '李四', '王五', '赵六']
     set_1 = set(names)
     # set_1 = set(['刘一', '陈二', '张三', '李四', '王五', '赵六'])
@@ -207,8 +167,7 @@ def learn_method_06():
 
 
 def learn_method_07():
-    print("learn_method_07")
-    print('数据类型转换-------------------------------')
+    print('07.数据类型转换-------------------------------')
     text = '5678'
     print(f'转成 int 类型=={int(text)}')
     print(f'转成 float 类型=={float(text)}')
@@ -220,50 +179,47 @@ def learn_method_07():
 
 
 def learn_method_08():
-    print("learn_method_08")
-    print('多个返回值测试--------------------------------------------')
+    print('08.多个返回值测试--------------------------------------------')
     return 1, 3, 4, 56, 7
 
 
 def learn_method_09():
-    print("learn_method_09")
     print(f'参数对应类型验证=={isinstance(9, (int, float))}')
     print(f'参数对应类型验证=={isinstance(9.0, (int, float))}')
     print(f'参数对应类型验证=={isinstance("9.09.0", (int, float))}')
     print(f'参数对应类型验证=={isinstance("9.09.0", str)}')
 
 
-def calc1(*args):
-    print(f'args=={args}')
-    sum = 0
-    for x in args:
-        print(f'x=={x + x}')
-        sum = sum + x * x
-    return sum
-
-
 def learn_method_10():
-    print("learn_method_10")
-    print('函数定义---------------------')
-    print(calc1(1, 3, 5, 7))
-    print('自定义可变参数-------------------------------------------')
+    print('10.函数定义，默认参数，可变参数---------------------')
+    print('1）位置参数(固定参数)：按顺序依次输入的参数，必须要传值。')
+    print('2）默认参数：位置参数设置了默认值，就是默认参数，默认参数也是固定参数，也是按顺序复制')
+    print('3）可变参数： *args 接收的是一个 tuple 类型')
+    print(f"可变参数custom_field(1, 3, 5, 7)=={custom.custom_field(1, 3, 5, 7)}")
     tr = (1, 3, 5, 7)
-    print(calc1(*tr))
-    print(calc1(*(1, 3, 5, 7)))
+    print(f"可变参数custom_field(*tr)=={custom.custom_field(*tr)}")
+    print('4）关键字参数 **kw-------------------------------------------')
+    custom.person('张三', 33)
+    custom.person('张三', 33, gender='man', city='北京', year=2023)
+    kw = {'city': '北京', 'job': '开发'}
+    custom.person('张三', 33, gender='man', **kw)
+
+    print('5）命名关键字参数 *-------------------------------------------')
+    custom.person1('张三', 33, city='北京')
+    custom.person1('张三', 33, city='北京', job=2023)
+    print('5）可变参数+命名字参数 *args，city，job-------------------------------------------')
+    custom.person2('张三', 33, 12, 3, 4, city='北京', job=2023)
+    print('5）可变参数+命名字参数 *args，city，job-------------------------------------------')
+    custom.person3('张三', 33, job=2023)
+
+    print('默认参数后边跟着可变参数，如果默认参数没有赋值，会自动摘取可变参数 tuple 中的数据按顺序补位')
+    custom.f1("张三", 111, 1, 3, 5, 7, 8, city='北京', job='开发')
+    custom.f1("李四", 111, *tr, **kw)
+    custom.f2("王五", 111, email=1, qq=1, city='北京', job='开发')
+    custom.f2("赵六", 111, email=1, qq=1, **kw)
 
 
-def learn_method_11():
-    print("learn_method_11")
-    print('自定义关键字参数，没看出有什么用-------------------------------------------')
-    Custom.person('李彬', 33, gender='man', city='北京', year=2023)
-    distAndMap = {'city': '北京', 'job': '开发'}
-    Custom.person('李彬', 33, gender='man', **distAndMap)
-    Custom.person1('李彬', 33, city='北京', job=2023)
-    Custom.person2('李彬', 33, 12, 3, 4, city='北京', job=2023)
-    Custom.person3('李彬', 33, job=2023)
-    print('自定义可变参数与关键字参数共用-------------------------------------------')
-
-
+# 递归调用
 def ride(n):
     return ride_iter(n, 1)
 
@@ -274,18 +230,29 @@ def ride_iter(num, result):
     return ride_iter(num - 1, num * result)
 
 
+def learn_method_11():
+    print('去除字符串中空字符的几种方法---------------')
+    text = '    天地玄黄，  宇宙洪荒;   '
+    print(f'去除字符串中开头和结尾处的空字符：text.strip()==开头：{text.strip()}：结尾')
+    print(f'去除字符串中开头的空字符：text.lstrip()==开头：{text.lstrip()}：结尾')
+    print(f'去除字符串中结尾的空字符：text.rstrip()==开头：{text.rstrip()}：结尾')
+    print(f'去除字符串中所有的空字符：text.replace(" ", "")==开头：{text.replace(" ", "")}：结尾')
+
+    print(f'text.rsplit()==开头：{text.rsplit()}：结尾')
+    print(f'text.split()==开头：{text.split()}：结尾')
+    print(f'text.split(" ")==开头：{text.split(" ")}：结尾')
+
+
 # 递归函数，尾部调用
 def learn_method_12():
-    print("learn_method_12")
-    print('递归函数-------------------------------------------')
+    print('12.递归函数-------------------------------------------')
     print(f'输出1到10的乘积=={ride(10)}')
     print(f'输出1到10的乘积=={ride_iter(10, 1)}')
     print(f'输出1到10的乘积=={1 * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10}')
 
 
 def learn_method_13():
-    print("learn_method_13")
-    print('切片操作符-------------------------------------------')
+    print('13.切片操作符-------------------------------------------')
     numbers = [0, 1, 2, 3, 4, 5, 6, 7]
     print('输出numbers[3:7]==', numbers[3:7])
     print('输出numbers[-2:]，最后两个==', numbers[-2:])
@@ -312,8 +279,7 @@ def learn_method_13():
 
 
 def learn_method_14():
-    print("learn_method_14")
-    print('循环，迭代，Iterable---------------------------------------------------------------')
+    print('14.循环，迭代，Iterable---------------------------------------------------------------')
     numbers = list(range(100))  # 一百以内的list(0-99)
     print(isinstance(numbers, Iterable))
     text = 'ABCDEFGH'
@@ -329,8 +295,7 @@ def learn_method_14():
 
 
 def learn_method_15():
-    print("learn_method_15")
-    print('列表生成式，以中括号[]为准，繁琐的一比---------------------------------------------')
+    print('15.列表生成式，以中括号[]为准，繁琐的一比---------------------------------------------')
     print('01.生成1-8的2次方的list==', [x * x for x in range(1, 9)])
     print('02.生成1-8中偶数2次方的list==', [x * x for x in range(1, 9) if x % 2 == 0])
     print('03.生成1-8中奇数2次方的list==', [x * x for x in range(1, 9) if x % 2 == 1])
@@ -345,15 +310,13 @@ def learn_method_15():
           [x * (x if x % 2 == 0 else -x) for x in range(1, 9)])
     print('10.生成1-8中奇数为负，偶数为正，2次方，组成的list==',
           [(x if x % 2 == 0 else -x) * (x if x % 2 == 0 else -x) for x in range(1, 9)])
-    print('11.列表生成器 ', ((x if x % 2 == 0 else -x) * (x if x % 2 == 0 else -x) for x in range(1, 9)))
 
 
 def learn_method_16():
-    print("learn_method_16")
-    print('列表生成器 generator，以小括号 ()为准-----------------------------')
+    print('16.列表生成器 generator，以小括号 ()为准-----------------------------')
     print('列表生成式是直接生成集合列表，容量确定。生成器是生成一个对象，一边循环 ，一边计算生成下一个使用元素')
     gene = ((x if x % 2 == 0 else -x) * (x if x % 2 == 0 else -x) for x in range(1, 9))
-    print('11.列表生成器 ', gene)
+    print('列表生成器 ', gene)
     print('取值的方法', next(gene))
     print('取值的方法  ', gene.__next__())
     print('斐波那契数列输出，加入yield 后，返回的就是一个generator 对象------------')
@@ -412,8 +375,7 @@ def triangles():
 
 
 def learn_method_17():
-    print("learn_method_17")
-    print('MD5加密第一种------------------------------')
+    print('17.MD5加密第一种------------------------------')
     password = '123456'
     print(password)
     md = hashlib.md5(password.encode())  # 创建md5对象
@@ -455,13 +417,12 @@ def add1(x, y):
     return x + y
 
 
-def ff(x):
+def filt(x):
     return x % 2 == 1
 
 
 def learn_method_18():
-    print("learn_method_18")
-    print('map()，reduce()，filter()，sorted()方法的使用---------------------------------------------')
+    print('18.map()，reduce()，filter()，sorted()方法的使用---------------------------------------------')
     nums = [9, 3, 8, 3, 1]
     m = map(str, nums)
     print(f'map()生成一个 iterator 惰性序列=={type(m)}')
@@ -471,8 +432,8 @@ def learn_method_18():
     print('map()字符串转编码集，并生成list,1234==', list(map(ord, '1234')))
     print('map()字符串转编码集，并生成list,ABCD==', list(map(ord, 'ABCD')))
     print('map()字符串转数字编码，并生成list,abcd==', list(map(ord, 'abcd')))
-    print(f'filter()条件筛选，筛选出奇数，并组成list=={list(filter(ff, nums))}')
-    print(f'filter()条件筛选，筛选出奇数，并组成list=={next(filter(ff, nums))}')
+    print(f'filter()条件筛选，筛选出奇数，并组成list=={list(filter(filt, nums))}')
+    print(f'filter()条件筛选，筛选出奇数，并组成list=={next(filter(filt, nums))}')
     print('sorted()排序方法，默认排序==', sorted(nums))
     text = 'abcd'
     print(f'把 abcd 转成大写的=={next(map(str.upper, text))}')
@@ -484,12 +445,25 @@ def learn_method_18():
     print('不区分大小写排序,key=str.lower', sorted(text2, key=str.lower))
     print('不区分大小写排序,key=str.upper', sorted(text2, key=str.upper))
     print(list(map(ord, '0123456789')))
+    names = ['刘一', '陈二', '张三', '李四', '王五', '赵六']
+    stus = []
+    print(f"0-1之间的小数=={random.random()}")
+    print(f"1-100之间的小数=={random.random() * 100 + 1}")
+    print(f'1-100之间的整数={random.randint(1, 100)}')
+    print(f"随机文本={random.choice(['男', '女', '男', '女', '男', '女', '男', '女'])}")
+
+    print(f"1-100之间的整数={numpy.random.randint(1, 100)}")
+    print(f"随机文本={numpy.random.choice(['男', '女', '男', '女', '男', '女', '男', '女'])}")
+
+    for name in names:
+        stus.append((name, random.choice(['男', '女', '男', '女', '男', '女', '男', '女']), random.randint(1, 100),
+                     random.randint(1, 100)))
+    print('sorted()排序方法，默认排序==', sorted(stus))
 
 
 def learn_method_19():
     # 闭包，延迟计算
-    print("learn_method_19")
-    print('闭包的使用，函数作为返回值---------------------------------------------------------------------')
+    print('19.闭包的使用，函数作为返回值---------------------------------------------------------------------')
     s1 = lazy_sum(1, 2, 3, 4, 5, 6, 7, 8, 9)
     s2 = lazy_sum(1, 2, 3, 4, 5, 6, 7, 8, 9)
     print('闭包s1==，返回的是函数类型', s1)
@@ -509,26 +483,23 @@ def lazy_sum(*args):
 
 
 def learn_method_20():
-    print("learn_method_20")
-    # 匿名函数
-    print('匿名函数应用,lambda 表示匿名函数，函数的简化-------------------------------------------------')
+    print('20.匿名函数应用,lambda 表示匿名函数，函数的简化-------------------------------------------------')
     print('匿名函数应用==', list(map(lambda x: x * x, [1, 2, 3, 4, 5])))
     print('匿名函数应用==', type(lambda x: x * x))
 
-    # print('方法名==', count.__name__)
+    print('int() 方法默认是十进制转十进制，base等于8时，是8进制转十进制-------------------------------------------------')
+    print('默认是十进制转成十进制：255 ==', int('255'))
+    print('16进制转成十进制：255 == ', int('255', 16))
+    print('16进制转成十进制：ff == ', int('ff', 16))
+    print('二进制转成十进制：1111 == ', int('1111', base=2))
+    print('八进制转成十进制：20 == ', int('20', 8))
+
     # 偏函数
     print('偏函数应用，functools.partial 定义的函数-------------------------------------------------')
-    print('int() 方法默认是十进制转十进制，base等于8时，是8进制转十进制')
-    print('255 ==', int('255'))
-    print('255 == 转成十进制', int('255', 16))
-    print('ff == 转成十进制', int('ff', 16))
-    print('1111 == 转成十进制', int('1111', base=2))
-    print('20 == 转成十进制', int('20', 8))
-
-    print('偏函数应用，functools.partial 定义的函数-------------------------------------------------')
+    print('定义一个二进制转十进制的偏函数：int2=functools.partial(int, base=2)')
     int2 = functools.partial(int, base=2)
     print(f'偏函数int2的类型=={type(int2)}')
-    print('二进制转十进制=', int2('11111111'))
+    print('二进制转十进制：int2(1111) =', int2('1111'))
     print(max(11, 12, 45))
     max2 = functools.partial(max, 99)
     print(f'偏函数max2的类型=={type(max2)}')
@@ -536,28 +507,83 @@ def learn_method_20():
 
 
 def learn_method_21():
-    print("learn_method_21")
-    print("装饰器模式有待研究，暂时不予考虑--------------------------")
+    print("21.decorator 装饰器模式，近似于java的注解，但java的注解使用的是反射，而 python 使用的是方法嵌套 ---------")
+    print('无参数的且接收一个参数装饰器', factorial(10))
+    print('无参数的但接收多个参数装饰器', factorial2(1, 10))
+    print('有参数的且接收多个参数装饰器', factorial3(10, 100))
+
+
+def log(f):
+    def fn(x):
+        print('执行的方法是' + f.__name__ + '()...')
+        return f(x)
+
+    return fn
+
+
+@log
+def factorial(n):
+    print(f"计算1-{n}的阶乘")
+    return reduce(lambda x, y: x * y, range(1, n + 1))
+
+
+def log2(f):
+    def fn(*args, **kw):
+        time1 = time.time_ns()
+        r = f(*args, **kw)
+        time2 = time.time_ns()
+        print(f'执行方法{f.__name__}的时间是=={int(time2 - time1)}纳秒')
+        return r
+
+    return fn
+
+
+@log2
+def factorial2(a, b):
+    print(f"计算{a}-{b}的和")
+    return reduce(lambda x, y: x + y, range(a, b + 1))
+
+
+def log3(prifix):
+    def log_decorator(f):
+        def wrapper(*args, **kw):
+            time1 = time.time_ns()
+            r = f(*args, **kw)
+            time2 = time.time_ns()
+            print(f'前缀{prifix}执行方法{f.__name__}的时间是=={int(time2 - time1)}纳秒')
+            return r
+
+        return wrapper
+
+    return log_decorator
+
+
+@log3('decorator自定义的参数')
+def factorial3(a, b):
+    print(f"计算{a}-{b}的和")
+    return reduce(lambda x, y: x + y, range(a, b + 1))
 
 
 def learn_method_22():
-    print("learn_method_22")
-    print('自定义类，属性-------------------------------------------------')
-    stu = Student1('李彬', '男', 33, 88)
-    stu.print_stu()
+    print('22.自定义类，属性-------------------------------------------------')
+    tea = Teacher('张三', '男', 33, 88)
+    print(tea.__str__())
+    tea.set_name("李四")
+    print(tea.__str__())
+    print(tea())
+    stu = Student('王五', '男', 33, 88)
     print(stu.__str__())
-    stu.set_name("旺旺")
-    print(stu.__str__())
-    stu = Student('李彬', '男', 33, 88)
-    stu.print_stu()
-    print(stu.__str__())
-    stu.set_name("旺旺")
+    stu.set_name("赵六")
     print(stu.__str__())
     # 集成与多态
-    print('集成与多态-----------------------------------------------------------------')
+    print('继承与多态-----------------------------------------------------------------')
     cat = Cat('猫', '雄', 4)
-    ani = Animal('猫', '雄', 4)
-    print(cat.print_ani())
+    dog = Dog('狗', '雄', 4)
+    ani = Animal('动物', '雄', 4)
+    print(ani.__str__())
+    print(cat.__str__())
+    print(dog.__str__())
+    print(dog.__repr__())
     print('猫是动物', isinstance(cat, Animal))
     print('动物是猫，但类不是猫', isinstance(ani, Cat))
     list1 = [2]
@@ -565,9 +591,8 @@ def learn_method_22():
 
 
 def learn_method_23():
-    print("learn_method_23")
     # type()应用
-    print('type()，dir(),hasattr,getattr,setattr 方法使用，获取类型-------------------------------------------------')
+    print('23.type()，dir(),hasattr,getattr,setattr 方法使用，获取类型-------------------------------------------------')
     print("数字 123 的类型是 ==", type(123))
     print("字符串 123 的类型是 ==", type('123'))
     print("空类型 None 的类型是 ==", type(None))
@@ -584,25 +609,24 @@ def learn_method_23():
     print('dir方法使用，获取一个对象的所有属性和方法-----------------------------------------------------------------')
     print('dir方法', type(dir(cat)))
     print('dir方法', dir(cat))
-    stu = Student1('李彬', '男', 33, 88)
-    print('是否有name属性', hasattr(stu, 'name'))
-    print('是否有name属性', hasattr(stu, '__name'))
-    print('获取name属性的值', getattr(stu, 'name'))
-    print('给stu设置name的属性，并赋值', setattr(stu, 'name', "张三"))
-    print('获取name属性的值', getattr(stu, 'name'))
-    print('给stu设置name1的属性，并赋值', setattr(stu, 'name1', "李四"))
-    print('获取name1属性的值', getattr(stu, 'name1'))
+    tea = Teacher('张三', '男', 33, 88)
+    print('是否有name属性', hasattr(tea, 'name'))
+    print('是否有name属性', hasattr(tea, '__name'))
+    print('获取name属性的值', getattr(tea, 'name'))
+    print('给stu设置name的属性，并赋值', setattr(tea, 'name', "张三"))
+    print('获取name属性的值', getattr(tea, 'name'))
+    print('给stu设置name1的属性，并赋值', setattr(tea, 'name1', "李四"))
+    print('获取name1属性的值', getattr(tea, 'name1'))
 
 
 def learn_method_24():
-    print("learn_method_24")
-    print('MethodType动态绑定方法-------------------------------------------------------')
-    stu = Student1('李彬', '男', 33, 88)
-    stu.get_age = types.MethodType(get_age, stu)
-    stu.set_age = types.MethodType(set_age, stu)
-    stu.set_age(67)
-    print(stu.age)
-    print(stu.get_age())
+    print('24.MethodType动态绑定方法-------------------------------------------------------')
+    teacher = Teacher('张三', '男', 33, 88)
+    teacher.get_age = types.MethodType(get_age, teacher)
+    teacher.set_age = types.MethodType(set_age, teacher)
+    teacher.set_age(67)
+    print(teacher.age)
+    print(teacher.get_age())
 
 
 def set_age(self, age):
@@ -614,10 +638,9 @@ def get_age(self):
 
 
 def learn_method_25():
-    print("learn_method_25")
     print(
-        '自定义类__slots__绑定属性，绑定之后，这各类只能有这几个属性，不能在定义其他属性------------------------------------------------------------')
-    per = Person('李彬', 93)
+        '25.自定义类__slots__绑定属性，绑定之后，这各类只能有这几个属性，不能在定义其他属性---------------------------------')
+    per = Person('张三', 93)
     print(per.name)
     try:
         per.gender = '男'  # 已经限定死了属性，再次定义会报错
@@ -628,11 +651,9 @@ def learn_method_25():
 
 
 def learn_method_26():
-    print("learn_method_26")
-    # 特殊属性
-    print('__xxx__ 特殊属性的使用---------------------------------------------------')
-    stu = Student('李彬', '男', 33, 88)
-    per = Person('李彬', 93)
+    print('26.__xxx__ 特殊属性的使用---------------------------------------------------')
+    stu = Student('张三', '男', 33, 88)
+    per = Person('张三', 93)
     print('重写类的 str 方法==', str(stu))
     print('不重写类的 str 方法==', str(per))
     print("重写 str 后可直接调用stu==", stu)
@@ -645,35 +666,33 @@ def learn_method_26():
     n = 9
     assert n != 0
     print('callable 判断是否重写了call方法==', callable(per))
-    # for age in Student('李彬', '男', 33, 88):
+    # for age in Student('张三', '男', 33, 88):
     #     print(age)
 
 
 def learn_method_27():
-    print("learn_method_27")
-    print('文件读写-------------------------------------------------------')
-    # n = 1
-    # logging.info('n = %d' % n)
+    print('27.文件读写-------------------------------------------------------')
     path = './file/Python.txt'
-    file1 = open(path)
-    print(file1)
-    print(file1.read())
-    print('读完了，就没有了===', file1.readline())
-    file1.close()
-    print('第二遍读取-------------------------------------------------------')
+    f = open(path)
+    print(f"f=={f}")
+    print('读取一行：f.readline()===', f.readline())
+    print('读取多行：f.readline()===', f.readlines())
+    print(f"读取全部：f.read()=={f.read()}")
+    f.close()
+    print('第二遍读取，需要重新打开，with结束后，会自动关闭文件---------------------------------------------------')
     with open(path, 'r') as f:
         for line in f.readlines():
-            print(line.strip())  # strip去除末尾的'\n'
+            print(line.strip())  # strip去除开头末尾的空字符
+            # print(line[::-1])  # 倒序输出
 
-    print('第三遍读取，插入内容-------------------------------------------------------')
+    print('第三遍读取，追加内容-------------------------------------------------------')
     text = "天地玄黄，宇宙洪荒"
     with open(path, 'a') as f:
         f.write(text)
 
 
 def learn_method_28():
-    print("learn_method_28")
-    print('StringIO操作-------------------------------------------------------')
+    print('28.StringIO操作-------------------------------------------------------')
     str1 = StringIO()
     str1.write('拼接的')
     print(str1.getvalue())
@@ -682,8 +701,7 @@ def learn_method_28():
 
 
 def learn_method_29():
-    print("learn_method_29")
-    print('BytesIO操作-------------------------------------------------------')
+    print('29.BytesIO操作-------------------------------------------------------')
     by1 = BytesIO()
     print(f"by1.write('拼接的'.encode('utf-8'))==={by1.write('拼接的'.encode('utf-8'))}")
     print(f"by1.__str__()=={by1.__str__()}")
@@ -694,8 +712,7 @@ def learn_method_29():
 
 
 def learn_method_30():
-    print("learn_method_30")
-    print('OS系统操作-------------------------------------------------------')
+    print('30.OS系统操作-------------------------------------------------------')
     print('os.name==', os.name)
     print('os.path==', os.path)
     print('os.uname()系统详情==', os.uname())
@@ -713,5 +730,11 @@ def learn_method_30():
     print('输出.py结尾的文件', [d for d in os.listdir('.') if os.path.isfile(d) and os.path.splitext(d)[1] == '.py'])
     for d in os.listdir('.'):  # 获取当前目录下的文件和文件夹
         if os.path.isfile(d):  # 是否是文件
-            print(f"文件名=={d};转化的数组=={os.path.splitext(d)}")  # 文件名数组化
+            print(f"文件名=={d}；转化的数组=={os.path.splitext(d)}")  # 文件名数组化
 
+
+def learn_method_31():
+    print('Process (%s) start...' % os.getpid())
+    print(f"3的3次方：math.pow(3,3)=={math.pow(3, 3)}")
+    print(f"π：pi:math.pi=={math.pi}")
+    print(f"sys.path=={sys.path}")

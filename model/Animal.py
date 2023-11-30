@@ -17,7 +17,7 @@ class Animal(object):
         print('物种：%s，性别：%s，年龄：%d' % (self.name, self.gender, self.age))
 
     def __str__(self):
-        return '重写__str__方法的返回：物种：%s，性别：%s，年龄：%d' % (self.name, self.gender, self.age)
+        return '重写__str__方法：物种：%s，性别：%s，年龄：%d' % (self.name, self.gender, self.age)
 
     def get_name(self):
         return self.name
@@ -30,3 +30,23 @@ class Animal(object):
 
     def set_gender(self, gender):
         self.gender = gender
+
+
+class Cat(Animal):
+
+    def __init__(self, name, gender, age, type="猫科"):
+        super().__init__(name, gender, age)
+        self.type = type
+
+    def __str__(self):
+        return '重写__str__方法：动物名：%s，性别：%s，年龄：%d；纲目：%s' % (self.name, self.gender, self.age, self.type)
+
+
+class Dog(Animal):
+
+    def __init__(self, name, gender, age, category="犬科"):
+        super().__init__(name, gender, age)
+        self.category = category
+
+    def __str__(self):
+        return '重写__str__方法：动物名：%s，性别：%s，年龄：%d，纲目：%s' % (self.name, self.gender, self.age, self.category)
