@@ -1,0 +1,22 @@
+[
+    {
+        'cityId': 2,
+        'cityName': '杭州'
+    },
+    {
+        'cityId': 29,
+        'cityName': '徐州'
+    },
+    {
+        'cityId': 35,
+        'cityName': '无锡'
+    },
+    {
+        'cityId': 39,
+        'cityName': '南通'
+    },
+    {
+        'cityId': 89,
+        'cityName': '连云港'
+    }
+]
