@@ -733,16 +733,16 @@ def learn_method_30():
     print("当前执行代码所在文件的绝对路径==", os.path.abspath(__file__))
     # print('创建目录==', os.path.join('.', 'testdir'))
     # print(os.mkdir('./testdir'))
-    # print(os.rmdir('./testdir'))
-    # print('输出当前目录的所有文件和文件夹  ==', [d for d in os.listdir('')])
-    # gene = (d for d in os.listdir(''))
-    # print('中括号变成小括号，会转成 generator，是个对象===', gene)
-    # print('中括号变成小括号，会转成 generator，是个对象===', gene.__next__())
-    # print('输出当前文件夹', [d for d in os.listdir('') if os.path.isdir(d)])
-    # print('输出.py结尾的文件', [d for d in os.listdir('') if os.path.isfile(d) and os.path.splitext(d)[1] == '.py'])
-    # for d in os.listdir(''):  # 获取当前目录下的文件和文件夹
-    #     if os.path.isfile(d):  # 是否是文件
-    #         print(f"文件名=={d}；转化的数组=={os.path.splitext(d)}")  # 文件名数组化
+    print('输出当前目录的所有文件和文件夹  ==', [d for d in os.listdir('.')])
+    gene = (d for d in os.listdir('.'))
+    print('中括号变成小括号，会转成 generator，是个对象===', gene)
+    print('中括号变成小括号，会转成 generator，是个对象===', gene.__next__())
+    print('输出当前文件夹', [d for d in os.listdir('.') if os.path.isdir(d)])
+    print('输出.py结尾的文件', [d for d in os.listdir('.') if os.path.isfile(d) and os.path.splitext(d)[1] == '.py'])
+    print('输出.txt结尾的文件', [d for d in os.listdir('static/images') if os.path.isfile('static/images/'+str(d)) and os.path.splitext(d)[1] == '.png'])
+    for d in os.listdir('.'):  # 获取当前目录下的文件和文件夹
+        if os.path.isfile(d):  # 是否是文件
+            print(f"文件名=={d}；转化的数组=={os.path.splitext(d)}")  # 文件名数组化
 
 
 def learn_method_31():
