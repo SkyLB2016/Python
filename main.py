@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-from application import pachong_rj
-from application import create_pdf
 from application.learn import learn  # 只导入 learn01 中对应的 learn_method 方法。
 
 # 控制台输入操作
