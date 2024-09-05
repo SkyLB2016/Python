@@ -29,7 +29,6 @@ def time_format():
     print(f"13.datetime.strptime()方法，格式化后的时间time3=={date_time}")
     print(f"14.datetime.strptime() 格式化后，time3的类型=={type(date_time)}")
     print("15.", datetime.datetime.fromtimestamp(datetime.datetime.now().timestamp()))  # 本地时间
-    print("16.", datetime.datetime.utcfromtimestamp(datetime.datetime.now().timestamp()))  # UTC时间
 
     # 创建一个当前日期和时间的对象
     now = datetime.datetime.now()

@@ -10,7 +10,6 @@ from application import tools
 
 def create_pdf(image_path='static/images', save_path='static/pdf', file_name='人教版数学一年级上册预习卡'):
     tools.check_path(save_path)
-
     # path = '../static/images'
     images = [
         image_path + "/" + file_str  # 最终返回
@@ -18,8 +17,10 @@ def create_pdf(image_path='static/images', save_path='static/pdf', file_name='�
         if os.path.isfile(image_path + "/" + file_str) and os.path.splitext(file_str)[1] == '.png'  # 返回条件
     ]
     print('图片列表  ==', images)
-    images.sort()
+    images.sort(key=lambda x: int(x.split('/')[-1].split('.')[0]))
     print('图片列表，重排序  ==', images)
+    # images = sorted(images, key=lambda x: int(x.split('/')[-1].split('.')[0]))
+    # print('图片列表，重排序  ==', images)
 
     # 文件路径
     file_path = save_path + '/' + file_name + '.pdf'
@@ -30,6 +31,8 @@ def create_pdf(image_path='static/images', save_path='static/pdf', file_name='�
         f.write(img2pdf.convert(images))
         # 将单个图像转换为PDF
         # f.write(img2pdf.convert("image.jpg"))
+
+
 def create_pdf_alpha(image_path='static/images', save_path='static/pdf', file_name='人教版数学一年级上册预习卡'):
     tools.check_path(save_path)
 

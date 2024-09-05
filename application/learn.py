@@ -41,6 +41,7 @@ def learn_method_01():
     # 字典
     dict_val = {"one": 1, "two": 2, "three": 3}
     print("print的输出", str_val)
+    print(f"num != str_val=={num != str_val}")
 
     print(f"科学计数法：1.23e6=={1.23e6}")
     print(f"科学计数法：1_000_000_000=={1_000_000_000}")
@@ -61,7 +62,6 @@ def learn_method_01():
     print(f"双除号//，除数和被除数都为整数，会向下取整，得到整数：-11 // 3=={-11 // 3}")
     print(f"双除号//，除数和被除数有一个整数，得到整值的浮点数：11.3 // 3=={11.3 // 3}")
     print(f"双除号//，除数和被除数有一个整数，得到整值的浮点数：11 // 3.0=={11 // 3.0}")
-    print(f"num != str_val=={num != str_val}")
 
 
 def learn_method_02():
@@ -110,7 +110,6 @@ def learn_method_04():
     print('04.list与tuple----------------------------------')
     print('list是python 内置的一种列表数据类型，有序集合，可随时添加、删除，各个元素可以是不同类型----------------')
     names = ['刘一', '陈二', '张三', '李四', '王五', '赵六']
-    names1 = ['刘一', '陈二', '张三', '李四', '王五', '赵六']
 
     # ['孙七','周八','吴九', '郑十']
     print(f"输出 names 的元素=={names}")
@@ -323,8 +322,8 @@ def learn_method_15():
     print('03.生成1-8中奇数2次方的list==', [x * x for x in range(1, 9) if x % 2 == 1])
     print('04.生成 123 和 abc 数字和字母组成的list==', [a + b for a in '123' for b in 'abc'])
     print('05.生成1-3与 1 到 5，各数相加组成的list==', [(a + b) for a in range(1, 4) for b in range(1, 6)])
-    print('06.生成当前目录下的文件和文件夹组成的list==', [dir for dir in os.listdir('')])
-    print('06,小括号，会转成 generator，是个需要迭代的对象', (d for d in os.listdir('')))
+    print('06.生成当前目录下的文件和文件夹组成的list==', [d for d in os.listdir('learn')])
+    print('06,小括号，会转成 generator，是个需要迭代的对象', (d for d in os.listdir('learn')))
     dict_map = {'username': "刘一", 'phone': "18531022252", 'addresses': "北京市"}
     print('07.生成字典dict的kv组成的list==', [k + '=' + v for k, v in dict_map.items()])
     print('08.生成1-8中奇数为负，偶数为正，组成的list==', [x if x % 2 == 0 else -x for x in range(1, 9)])
@@ -366,7 +365,7 @@ def learn_method_16():
             break
         n = n + 1
         print('杨辉三角第', n, '列', g)
-    print('06', (d for d in os.listdir('')))
+    print('06', (d for d in os.listdir('learn')))
 
 
 def fib(num):
@@ -729,18 +728,19 @@ def learn_method_30():
     print('os.uname()系统详情==', os.uname())
     print('os.environ，环境变量==', os.environ)
     print('os.environ.get(\'PATH\')==', os.environ.get('PATH'))
-    print("程序执行的根目录绝对路径==", os.path.abspath('.'))
+    print("程序执行的根目录绝对路径==", os.path.abspath('learn'))
     print("当前执行代码所在文件的绝对路径==", os.path.abspath(__file__))
     # print('创建目录==', os.path.join('.', 'testdir'))
     # print(os.mkdir('./testdir'))
-    print('输出当前目录的所有文件和文件夹  ==', [d for d in os.listdir('.')])
-    gene = (d for d in os.listdir('.'))
+    print('输出当前目录的所有文件和文件夹  ==', [d for d in os.listdir('learn')])
+    gene = (d for d in os.listdir('learn'))
     print('中括号变成小括号，会转成 generator，是个对象===', gene)
     print('中括号变成小括号，会转成 generator，是个对象===', gene.__next__())
-    print('输出当前文件夹', [d for d in os.listdir('.') if os.path.isdir(d)])
-    print('输出.py结尾的文件', [d for d in os.listdir('.') if os.path.isfile(d) and os.path.splitext(d)[1] == '.py'])
-    print('输出.txt结尾的文件', [d for d in os.listdir('static/images') if os.path.isfile('static/images/'+str(d)) and os.path.splitext(d)[1] == '.png'])
-    for d in os.listdir('.'):  # 获取当前目录下的文件和文件夹
+    print('输出当前文件夹', [d for d in os.listdir('learn') if os.path.isdir(d)])
+    print('输出.py结尾的文件', [d for d in os.listdir('learn') if os.path.isfile(d) and os.path.splitext(d)[1] == '.py'])
+    print('输出.txt结尾的文件', [d for d in os.listdir('static/images') if
+                                 os.path.isfile('static/images/' + str(d)) and os.path.splitext(d)[1] == '.png'])
+    for d in os.listdir('learn'):  # 获取当前目录下的文件和文件夹
         if os.path.isfile(d):  # 是否是文件
             print(f"文件名=={d}；转化的数组=={os.path.splitext(d)}")  # 文件名数组化
 
@@ -976,14 +976,6 @@ def download():
                 f.write(chunk)
 
 
-# 从字符串的指定的位置开始取
-def get_str():
-    reason = f"原因=甲方企业名称格式不正确,统一信用代码格式不正确,甲方法人/负责人格式不正确,合同年限格式不正确,合同开始日期格式不正确,合同结束日期格式不正确"
-    print(reason[3:])
-    reason = "+852"
-    print(reason[1:])
-
-
 # 十六进制计算
 def hex_cal():
     print(f'十进制 转成 十六进制=={hex(12)}')
@@ -998,137 +990,6 @@ def hex_cal():
         print(hex(a))
         a = a + 54
         print(hex(a))
-
-
-def data_change():
-    date_string = "2023u5e747u67083u65e5"
-    cleaned_date_string = date_string.replace("u5e74", "-").replace("u6708", "-").replace("u65e5", "")
-    print(cleaned_date_string)
-    YMDHMS = '%Y-%m-%d %H:%M:%S'
-    YMD = '%Y-%m-%d'
-
-    try:
-        date_object = datetime.datetime.strptime(cleaned_date_string, "%Y-%m-%d")
-        print(date_object)
-        print(date_object.strftime(YMD))
-        print(date_object.strftime(YMDHMS))
-    except ValueError as e:
-        print(f"日期字符串格式错误: {e}")
-
-
-data1 = [
-    {
-        'cityId': 2,
-        'cityName': '杭州'
-    },
-    {
-        'cityId': 29,
-        'cityName': '徐州'
-    },
-    {
-        'cityId': 35,
-        'cityName': '无锡'
-    },
-    {
-        'cityId': 39,
-        'cityName': '南通'
-    },
-    {
-        'cityId': 89,
-        'cityName': '连云港'
-    }
-]
-
-data2 = [
-    {
-        'cityId': 2,
-        'cityName': '杭州'
-    },
-    {
-        'cityId': 29,
-        'cityName': '徐州'
-    },
-    {
-        'cityId': 35,
-        'cityName': '无锡'
-    },
-    {
-        'cityId': 39,
-        'cityName': '南通'
-    },
-    {
-        'cityId': 89,
-        'cityName': '连云港'
-    }
-]
-
-import re
-
-
-def process_id_number(id_number):
-    # 步骤2: 使用正则表达式去除左侧的任何英文标点符号
-    # 注意：这里假设“左侧的任何英文标点符号”指的是位于开头的标点符号
-    id_number = re.sub(r'^[^\w\s]+', '', id_number)
-    # 步骤1: 如果第十八位是小写字母，自动转换成大写字母
-    if len(id_number) == 18 and id_number[-1].islower():
-        id_number = id_number[:-1] + id_number[-1].upper()
-    return id_number
-
-
-def transfer_number(origin_str):
-    try:
-        if origin_str:
-            origin_str_list = str(origin_str).split('.')
-            if int(origin_str_list[1]) > 0:
-                print("erdtfyguhijokpl[;")
-                return origin_str
-            else:
-                print("1234567890-[;")
-                return origin_str_list[0]
-        else:
-            return origin_str
-    except Exception as e:
-        print("代付款交换空间")
-        return origin_str
-
-
-def to_json(text):
-    print(text)
-    return json.dumps(text)
-
-
-def sanyuan():
-    # python的三元表达式
-    d = dict(name='李彬', age=59)
-    json_01 = to_json(d) if d else None
-    print(json_01)  # 输出应该是处理后的证件号码，如 "34052419800101001X"
-    d = None
-    json_01 = to_json(d) if d else None
-    print(json_01)  # 输出应该是处理后的证件号码，如 "34052419800101001X"
-    hukou_type = '1'
-    type = hukou_type if hukou_type else 0
-    print(f"type=={type}")
-
-
-def generate_password(length=12, min_categories=3):
-    # 定义字符类别
-    categories = [
-        string.ascii_uppercase,  # 大写字母
-        string.ascii_lowercase,  # 小写字母
-        string.digits,  # 数字
-        '!@#$%&*'  # 英文特殊字符
-    ]
-    # 随机选择至少min_categories个类别
-    selected_categories = random.sample(categories, random.randint(min_categories, len(categories)))
-    # print(f"随机的字符类别 selected_categories == {selected_categories}")
-    # 把所选类别合并成一个 字符串
-    all_chars = ''.join(selected_categories)
-    #     print(f"生成的字符串all_chars == {all_chars}")
-    # 生成密码
-    password = ''.join(random.choice(all_chars) for _ in range(length))
-    return password
-
-
 def generate_random_string(length=12):
     characters = string.ascii_letters + string.digits + '!@#$%&*'
     # print(f"characters == {characters}")
@@ -1143,93 +1004,144 @@ def md5(password):
     password = h.hexdigest()
     print(f"password == {password}")
 
+def max_subarray_sum(nums):
+    current_sum = max_sum = nums[0]
+    start = end = start_temp = 0
+    for i in range(1, len(nums)):
+        if current_sum >= 0:
+            current_sum += nums[i]
+        else:
+            current_sum = nums[i]
+            start_temp = i
 
-# 循环 dict 的 key
-def get_dict_key():
-    # 假设 date_res 是一个字典，其值包含时间信息（可能是 datetime 对象或其他可以被转换为字符串的对象）
-    date_res = {
-        'start': '2023-09-13 00:00:00',
-        'end': '2023-09-14 12:34:56',
-    }
-    # 初始化一个空字典来存储处理后的值
-    parameter_map = {}
-    # 遍历 date_res 中的每一个键值对
-    for date_key in date_res:
-        # 取出与 date_key 对应的值，并转换为字符串（如果它已经是字符串，则这一步是多余的）
-        # 然后替换 "00:00:00" 为空字符串
-        print(f"遍历的key == {date_key}")
-        parameter_map[date_key] = str(date_res[date_key]).replace("00:00:00", "")
-    # 输出处理后的字典
-    print(f"处理后的字典 == {parameter_map}")
+        if current_sum > max_sum:
+            max_sum = current_sum
+            start, end = start_temp, i
+    return nums[start:end + 1], max_sum
+
+
+def max_subarray_sum1(nums):
+    current_sum = max_sum = nums[0]
+    start = end = s = 0
+    for i in range(1, len(nums)):
+        if current_sum < 0:
+            current_sum = nums[i]
+            s = i
+        else:
+            current_sum += nums[i]
+        if current_sum > max_sum:
+            max_sum = current_sum
+            start, end = s, i
+    return nums[start:end + 1], max_sum
+
+
+def max_array():
+    #  从一个整数数列中如何找到和最大的连续子串
+    # nums = [-2, 1, -3, 4, -1, 2, 1, -5, 4]
+    nums = [1, 2, -2, 3, -3, -1, 4, -1, 2, 1, -5, 4]
+    # nums = [-10, 1, 2, 3, 4, -1, 2, -5, -23, 2, 7, -21]
+    # nums = [3, -2, 7, -1, 4]
+    subarray, max_sum = max_subarray_sum(nums)
+    print("子数组:", subarray)
+    print("最大和:", max_sum)
+    subarray, max_sum = max_subarray_sum1(nums)
+    print("子数组:", subarray)
+    print("最大和:", max_sum)
+
+
+def learn_method_test():
+    # print('python的数据类型分为：整数，浮点数，字符串，布尔值，还有个特殊值 None（空值）---------------------------------------')
+    # learn_method_01()
+    # print('字符编码转换-------------------------------')
+    # learn_method_02()
+    # print('字符串格式化，是字符串与变量的格式化拼接----------------------------------')
+    # learn_method_03()
+
+    # print('python 内置的数据列表类型：list 与 tuple----------------------------------')
+    # learn_method_04()
+
+    # print('python 的字典集合：distmap ----------------------------------')
+    # learn_method_05()
+
+    # print('set集合----------------------------------')
+    # learn_method_06()
+
+    # print('数据类型转换----------------------------------')
+    # learn_method_07()
+
+    # print('函数多个返回值测试,其实返回的是一个tuple 类型，可以单个变量逐个接收，也可以接收整个tuple--------------')
+    # x, y, z, a, b = learn_method_08()
+    # print(x)
+    # print(y)
+    # print(z)
+    # print(a)
+    # b = learn_method_08()
+    # print(b)
+
+    # print(f'参数对应类型验证=={isinstance(9, (int, float))}')
+    # learn_method_09()
+    # print('函数定义，默认参数，可变参数，关键字参数，命名关键字参数，以及组合---------------------')
+    # learn_method_10()
+    # print('去除字符串中空字符的几种方法---------------')
+    # learn_method_11()
+    # print('递归函数-------------------------------------------')
+    # learn_method_12()
+    # print('切片操作符-------------------------------------------')
+    # learn_method_13()
+    # print('循环，迭代，Iterable---------------------------------------------------------------')
+    # learn_method_14()
+    # print('列表生成式，以中括号[]为准，繁琐的一比---------------------------------------------')
+    # learn_method_15()
+
+    # print('列表生成器 generator，以小括号 ()为准-----------------------------')
+    # learn_method_16()
+
+    # print('MD5加密------------------------------')
+    # learn_method_17()
+
+    # print('map，reduce，filter，sorted方法的使用---------------------------------------------')
+    # learn_method_18()
+
+    # print('闭包的使用---------------------------------------------------------------------')
+    # learn_method_19()
+
+    # print('匿名函数应用,lambda 表示匿名函数，函数的简化-------------------------------------------------')
+    # learn_method_20()
+
+    # print("装饰器模式-----------------------------------------")
+    # learn_method_21()
+
+    # print('自定义类，属性-------------------------------------------------')
+    # print('集成与多态-----------------------------------------------------------------')
+    # learn_method_22()
+
+    # print('type()，dir(),hasattr,getattr,setattr 方法使用，获取类型-----------------------------------------------------------------')
+    # learn_method_23()
+
+    # print('MethodType动态绑定方法-------------------------------------------------------')
+    # learn_method_24()
+
+    # print('自定义类__slots__绑定属性，绑定之后，这各类只能有这几个属性，不能在定义其他属性------------------------------------------------------------')
+    # learn_method_25()
+
+    # print('__xxx__ 特殊属性的使用---------------------------------------------------')
+    # learn_method_26()
+
+    # print('文件读写-------------------------------------------------------')
+    # learn_method_27()
+
+    # print('StringIO操作-------------------------------------------------------')
+    # learn_method_28()
+
+    # print('BytesIO操作-------------------------------------------------------')
+    # learn_method_29()
+
+    # print('OS系统操作-------------------------------------------------------')
+    # learn_method_30()
+    pass
 
 
 def learn_method():
     print("方法测试------------------------------------------------")
-    # os.path
-    path = os.path
-    print(path.abspath('.'))
-    # 示例使用
-    # 获取当前时间
-    # now = datetime.datetime.now()
-    # # 打印当前时间
-    # print("当前时间:", now)
-    # # 如果你想要以特定格式打印时间，可以使用strftime方法
-    # formatted_now = now.strftime("%Y-%m-%d %H:%M:%S")
-    # print("格式化后的当前时间:", formatted_now)
-
-    error_list = []  # 假设这是一个存储错误的列表
-    # print(f"大写字母 == {string.ascii_uppercase}")
-    # print(f"小写字母 == {string.ascii_lowercase}")
-    # print(f"数字 == {string.digits}")
-    # data = data1 + data2
-    # print(len(data))
-    # print(data)
-    get_str()
-    # learn_method_21()
-    # date_string = "24K'runch面包·早午餐(无锡店)"
-    # cleaned_date_string = date_string.replace("'", "\'")
-    # print(cleaned_date_string)
-    # ''' 24K'runch面包早午餐(无锡店) '''
-    # knight_ids = {}
-    # with open('static/test.json', 'r') as static:
-    #     lines = static.readlines()
-    #     for line in lines:
-    #         line = line.replace("\n", "")
-    #         ids = line.split(',')
-    #         knight_ids[ids[0]] = ids[1]
-    # knight_all_ids = {}
-    # with open('static/test1.json', 'r') as static:
-    #     lines = static.readlines()
-    #     for line in lines:
-    #         line = line.replace("\n", "")
-    #         ids = line.split(',')
-    #         knight_all_ids[ids[0]] = ids[1]
-    # print(len(knight_ids))
-    # print(len(knight_all_ids))
-    # for k, v in knight_all_ids.items():
-    #     if knight_ids[k]:
-    #         print("")
-    #     else:
-    #         print(k,v)
-    # today = datetime.date.today()
-    # # 获取年份的第一天，即1月1日
-    # first_day_of_year = datetime.date(year=today.year, month=1, day=1)
-    # # 使用calendar.weeknumber函数获取周数，参数1表示周一为一周的第一天
-    # # _, week_number = calendar.weeknumber(today.year, today.month, today.day)
-    # # datetime.date(2013, 12, 30).isocalendar()[1]
-    #
-    # result = datetime.date(today.year, today.month, today.day - 1).isocalendar()
-    # print(result)
-    # print(result[1])
-    # # python 的周获取是从周一到周日
-    # result = datetime.datetime.now().date().isocalendar()
-    # year = result[0]
-    # week = result[1]
-    # print(f"year={year}")
-    # print(f"week={week}")
-    # # for k, v in dict_map.items():
-    # #     dt_object = datetime.datetime.fromtimestamp(v/1000)
-    # #     # 使用strftime方法将datetime对象格式化为你想要的字符串表示形式
-    # #     formatted_time = dt_object.strftime('%Y-%m-%d %H:%M:%S')
-    # #     print(f"{k}=={formatted_time}")
-    # #     # print(k,v)
+    learn_method_test()
+    # max_array()

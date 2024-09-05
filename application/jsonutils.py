@@ -1,7 +1,6 @@
 import json
 
 from application.model.Animal import Animal
-from application.model.models import Student
 
 
 def obj2dict(temp):
