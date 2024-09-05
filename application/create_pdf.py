@@ -1,3 +1,5 @@
+import io
+
 import img2pdf
 import os
 
@@ -41,17 +43,25 @@ def create_pdf_alpha(image_path='static/images', save_path='static/pdf', file_na
     images.sort()
     print('图片列表，重排序  ==', images)
 
-    pdf_bytes = b"".join(process_image(img) for img in images)
+    for img in images:
+        process_image(img)
     # 文件路径
     file_path = save_path + '/' + file_name + '.pdf'
     # 将多个图像转换为PDF
     with open(file_path, "wb") as f:
-        f.write(pdf_bytes)
+        f.write(img2pdf.convert(images))
 
 
 def process_image(image_path):
-    img = Image.open(image_path)
-    if img.mode == 'RGBA':
-        img = img.convert('RGB')
-    print(img.filename)
-    return img2pdf.convert(img.filename)
+    image = Image.open(image_path)
+    if image.mode == 'RGBA':
+        # 有 alpha 通道的重新处理一下图片
+        # 使用BytesIO将图片保存为bytes
+        image_stream = io.BytesIO()
+        image.save(image_stream, format='PNG')  # 或者其他格式，如'PNG'
+        image_bytes = image_stream.getvalue()
+        image_stream = io.BytesIO(image_bytes)
+        image = Image.open(image_stream)
+        image.save(image_path)
+        print(image_path)
+        # image.show()

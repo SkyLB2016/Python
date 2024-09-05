@@ -102,7 +102,7 @@ from application.learn import learn  # 只导入 learn01 中对应的 learn_meth
 # learn.learn_method_29()
 
 # print('OS系统操作-------------------------------------------------------')
-learn.learn_method_30()
+# learn.learn_method_30()
 
 # print("json的loads与dumps方法应用")
 # learn_json()
@@ -114,5 +114,5 @@ learn.learn_method()
 # pachong_rj.download_images(url, save_folder="static/images")
 
 # 生成pdf
-# create_pdf.create_pdf(image_path='static/images', file_name='人教版数学一年级上册预习卡')
-create_pdf.create_pdf_alpha(image_path='static/images', file_name='人教版数学一年级上册预习卡1')
+# create_pdf.create_pdf(image_path='static/images', file_name='人教版数学一年级上册预习卡2')
+# create_pdf.create_pdf_alpha(image_path='static/images', file_name='人教版数学一年级上册预习卡3')
