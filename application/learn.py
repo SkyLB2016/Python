@@ -1039,7 +1039,7 @@ def max_array():
     #  从一个整数数列中如何找到和最大的连续子串
     # nums = [-2, 1, -3, 4, -1, 2, 1, -5, 4]
     nums = [1, 2, -2, 3, -3, -1, 4, -1, 2, 1, -5, 4]
-    # nums = [-10, 1, 2, 3, 4, -1, 2, -5, -23, 2, 7, -21]
+    # nums = [-10, 1, 2, 3, 4, -1, 2, -5, -23, 11, 7, -21]
     # nums = [3, -2, 7, -1, 4]
     subarray, max_sum = max_subarray_sum(nums)
     print("子数组:", subarray)
@@ -1144,4 +1144,4 @@ def learn_method_test():
 def learn_method():
     print("方法测试------------------------------------------------")
     learn_method_test()
-    # max_array()
+    max_array()
