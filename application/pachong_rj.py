@@ -9,7 +9,7 @@ from application import tools
 
 
 # 爬取 人教版数学一年级上册预习卡 人教版一年级上册口算题卡
-def download_images(url, save_folder='../../static/images'):
+def download_images(url, save_folder='../../static/pdf_images'):
     # 确保保存图片的文件夹存在
     tools.check_path(save_folder)
     # 发送HTTP请求
@@ -56,4 +56,4 @@ def download_images(url, save_folder='../../static/images'):
 
 # 网站URL
 # url = "https://mp.weixin.qq.com/s/A4k3fSQEjTxgKhuq5E0fYw"
-# download_images(url, save_folder='../../static/images')
+# download_images(url, save_folder='../../static/pdf_images')

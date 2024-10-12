@@ -5,8 +5,8 @@ from application import tools
 
 def convert_pdf_to_images(pdf_path, output_folder):
     """
-    Description: 根据图片列表生成正方面两个 pdf 文件，图片需要以数字命名，每页两张图片的打印方式
-    * @param pdf_path pdf 文件路径
+    Description: 根据图片列表生成正方面两个 pdf_new 文件，图片需要以数字命名，每页两张图片的打印方式
+    * @param pdf_path pdf_new 文件路径
     * @param output_folder 图片保存路径
     """
 

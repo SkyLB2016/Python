@@ -1,6 +1,7 @@
 # created by virtualenv automatically
 #*
 .idea
-static/images
-static/pdf
-static/english
+static/pdf_images
+static/pdf_new
+static/pdf_old
+static/txt

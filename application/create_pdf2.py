@@ -5,7 +5,7 @@ from reportlab.lib.units import mm
 from reportlab.pdfgen import canvas
 
 def create_pdf():
-    path = '../static/images'
+    path = '../static/pdf_images'
     # os.listdir('.')
     images = [path + "/" + d for d in os.listdir(path) if
               os.path.isfile(path + "/" + d) and os.path.splitext(d)[1] == '.png']
@@ -19,10 +19,10 @@ def create_pdf():
     AC = (370*mm,500*mm)
 
     # 创建一个新的PDF画布
-    c = canvas.Canvas("../static/output.pdf", pagesize=AC)
+    c = canvas.Canvas("../static/output.pdf_new", pagesize=AC)
 
     # 打开图像并获取其尺寸
-    image_path = '../static/images/10.png'
+    image_path = '../static/pdf_images/10.png'
     image = Image.open(image_path)
     width, height = image.size
 

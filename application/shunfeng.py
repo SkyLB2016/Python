@@ -66,7 +66,7 @@ async def analysis_excel_body(dir_path):
                     asyncio.create_task(save_file(session, user_path + "-身份证反面图片.jpg", row[7], save_path)))
                 tasks.append(
                     asyncio.create_task(save_file(session, user_path + "-身份证手持图片.jpg", row[8], save_path)))
-                tasks.append(asyncio.create_task(save_file(session, user_path + "-协议信息.pdf", row[9], save_path)))
+                tasks.append(asyncio.create_task(save_file(session, user_path + "-协议信息.pdf_new", row[9], save_path)))
             # print('第', rows_number, '人')
             # 开始执行
             await asyncio.gather(*tasks)
