@@ -15,6 +15,7 @@ def time_format():
     print(f'3.时间格式：{YMD}，对应的时间：{date_time.strftime(YMD)}')
     print(f'4.时间格式：{YMDHM}，对应的时间：{date_time.strftime(YMDHM)}')
     print(f'5.时间格式：{YMDHMS}，对应的时间：{date_time.strftime(YMDHMS)}')
+    print(f'5.时间格式：{YMDHMS}，对应的时间：{date_time.strftime('%Y-%m-%d %H:%M:%S')}')
     print(f'6.时间格式：{CYMD}，对应的时间：{date_time.strftime(CYMD)}')
     print(f'7.时间格式：{CYMDHM}，对应的时间：{date_time.strftime(CYMDHM)}')
     print(f'8.时间格式：{CYMDHMS}，对应的时间：{date_time.strftime(CYMDHMS)}')
@@ -45,3 +46,6 @@ def time_format():
     # 减一小时
     one_hour_ago = now - datetime.timedelta(hours=1)
     print(one_hour_ago)
+
+
+

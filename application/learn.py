@@ -737,7 +737,8 @@ def learn_method_30():
     print('中括号变成小括号，会转成 generator，是个对象===', gene)
     print('中括号变成小括号，会转成 generator，是个对象===', gene.__next__())
     print('输出当前文件夹', [d for d in os.listdir('learn') if os.path.isdir(d)])
-    print('输出.py结尾的文件', [d for d in os.listdir('learn') if os.path.isfile(d) and os.path.splitext(d)[1] == '.py'])
+    print('输出.py结尾的文件',
+          [d for d in os.listdir('learn') if os.path.isfile(d) and os.path.splitext(d)[1] == '.py'])
     print('输出.txt结尾的文件', [d for d in os.listdir('static/images') if
                                  os.path.isfile('static/images/' + str(d)) and os.path.splitext(d)[1] == '.png'])
     for d in os.listdir('learn'):  # 获取当前目录下的文件和文件夹
@@ -745,27 +746,19 @@ def learn_method_30():
             print(f"文件名=={d}；转化的数组=={os.path.splitext(d)}")  # 文件名数组化
 
 
-def learn_method_31():
-    print("方法测试------------------------------------------------")
-    # print('Process (%s) start...' % os.getpid())
-    # print(f"3的3次方：math.pow(3,3)=={math.pow(3, 3)}")
-    # print(f"π：pi:math.pi=={math.pi}")
-    # print(f"sys.path=={sys.path}")
-    learn_method_32()
-
-
 def learn_method_32():
-    text_set = set()  # set无序不重复集合
-    text_ll = []  # list有序集合
+    text_not_repeat_set = set()  # set无序唯一集合，不重复 字 集合
+    text_not_repeat = []  # list有序集合，不重复 字 集合
     text_repeat = []  # 重复集合
-    # lines = []
-    count = 0  # 字数
-    count_total = 0  # 字与符号的总数
+
+    word_count_all = 0  # 字数总量
+    symbol_count_all = 0  # 符号总量
+    count_all = 0  # 字与符号的总数
 
     with open('./static/text.txt') as f:
         lines = f.readlines()
         for line in lines:
-            count_total += len(line)
+            count_all += len(line)
             line = line.replace("　", "") \
                 .replace("，", "") \
                 .replace("。", "") \
@@ -788,6 +781,7 @@ def learn_method_32():
                 .replace("·", "") \
                 .replace("（", "") \
                 .replace("）", "") \
+                .replace("+", "") \
                 .replace("0", "") \
                 .replace("1", "") \
                 .replace("2", "") \
@@ -801,26 +795,29 @@ def learn_method_32():
                 .replace("》", "") \
                 .replace("《", "")
 
-            count += len(line)
+            word_count_all += len(line)
             # print(line)
 
             for i in line:
-                if i not in text_ll:  # 判断是否已添加
-                    text_ll.append(i)
+                if i not in text_not_repeat:  # 判断是否已添加
+                    text_not_repeat.append(i)
                 else:
                     text_repeat.append(i)
 
-                text_set.add(i)  # 加入到无序不重复集合
-    print(f'有{len(lines)}行')
-    print(f'一共有{count_total}个字与符号')
-    print(f'一共有{count}字')
-    print(f'有{count_total - count}符号')
-    print(f'有{len(text_ll)}个不重复的字')
-    print(text_ll)
-    print(f'有{len(text_repeat)}个重复的字')
+                text_not_repeat_set.add(i)  # 加入到无序不重复集合
+
+    symbol_count_all = count_all - word_count_all
+    print("lines", f'有{len(lines)}行')
+    print("count_all", f'一共有{count_all}个字与符号')
+    print("word_count_all", f'一共有{word_count_all}字')
+    print("symbol_count_all", f'有{symbol_count_all}符号')
+
+    print("text_repeat", f'有{len(text_repeat)}个重复的字')
     # print(text_repeat)
-    print(f'有{len(text_set)}个不重复的字')
-    print(text_set)
+    print("text_not_repeat", f'有{len(text_not_repeat)}个不重复的字')
+    print("text_not_repeat", text_not_repeat)
+    print("text_not_repeat_set", f'有{len(text_not_repeat_set)}个不重复的字')
+    print("text_not_repeat_set", text_not_repeat_set)
     # print(f'判断是否为中文=={jieba.lcut("天地玄黄，宇宙洪荒")}')
     print('16进制3000对应的十进制是==', int("3000", base=16))
     print(f'数字 12288 对应的字符编码==start{chr(12288)}end')
@@ -962,6 +959,250 @@ def add_text(text, text_equal, text_equal_not, texts_112, texts_155):
         print(f"错误=={e}")
 
 
+def learn_method_38():
+    text_list = []
+    poetry = []
+    with open('./static/text.txt') as f:
+        lines = f.readlines()
+        for line in lines:
+            if line.__contains__('  '):
+                text_list.append(poetry)
+                poetry = []
+                # print(line)
+                if line.__contains__('、'):
+                    poetry.append(line.split("、")[1])
+                else:
+                    poetry.append(line)
+            else:
+                poetry.append(line)
+        text_list.append(poetry)
+
+    print("text_list", len(text_list))
+    dynasty_map = {}
+    # poetry_map = {}
+    for texts in text_list:
+        first = texts[0]
+        # print(texts[0])
+        if first.__contains__('  '):
+            sp = first.split('  ')[1].split('·')
+            dynasty = sp[0]
+            auth = sp[len(sp) - 1]
+            if dynasty in dynasty_map:
+                dy_map = dynasty_map[dynasty]
+                if auth in dy_map:
+                    dy_map[auth].append(texts)
+                else:
+                    dy_map[auth] = [texts]
+            else:
+                dynasty_map[dynasty] = {auth: [texts]}
+        else:
+            if '佚名\n' in dynasty_map:
+                dynasty_map['佚名\n']['佚名\n'].append(texts)
+            else:
+                dynasty_map['佚名\n'] = {'佚名\n': [texts]}
+    # print(dynasty_map)
+    # kes = dynasty_map.keys()
+    # print(kes)
+    # kes = [key for key in dynasty_map]
+    # print(kes)
+    keys = [
+        '佚名\n', '诗经\n', '汉乐府\n', '秦汉', '汉', '三国~魏', '东晋', '南朝~梁', '南朝~宋', '北朝民歌\n',
+        '古诗十九首\n', '唐', '北宋', '南宋', '元', '明', '清', '毛泽东\n'
+    ]
+    count = 0
+    tang_keys = [
+        '白居易\n', '岑参\n', '储光羲\n', '崔护\n', '常建\n', '陈子昂\n', '杜甫\n', '杜牧\n', '杜荀鹤\n', '高适\n',
+        '胡令能\n',
+        '韩翃\n', '韩愈\n', '贺知章\n', '贾岛\n', '李白\n', '李贺\n', '李峤\n', '李商隐\n', '李绅\n', '李世民\n',
+        '林杰\n', '令狐楚\n',
+        '刘长卿\n', '刘禹锡\n', '柳宗元\n', '卢纶\n', '罗隐\n', '骆宾王\n', '吕岩\n', '孟浩然\n', '孟郊\n', '皮日休\n',
+        '司空曙\n',
+        '宋之问\n', '王湾\n', '王勃\n', '王昌龄\n', '王翰\n', '王建\n', '王维\n', '王之涣\n', '韦应物\n', '温庭筠\n',
+        '颜真卿\n',
+        '虞世南\n', '元稹\n', '张籍\n', '张继\n', '张九龄\n', '张志和\n'
+    ]
+    with open('./static/诗词.txt', "w") as f:
+        for k in keys:
+            poetry_map = dynasty_map[k]
+            # for k2, poetries in poetry_map.items():
+            #     for poetry in poetries:
+            #         poetry[0] = str(count) + '、' + poetry[0]
+            #         for text in poetry:
+            #             f.write(text)
+            #         count += 1
+
+            auth_keys = [key for key in poetry_map]
+            print(auth_keys)
+            print(sorted(auth_keys))
+            if k == '唐':
+                for auth in tang_keys:
+                    for poetry in poetry_map[auth]:
+                        poetry[0] = str(count) + '、' + poetry[0]
+                        for text in poetry:
+                            f.write(text)
+                        count += 1
+            else:
+                for auth in auth_keys:
+                    for poetry in poetry_map[auth]:
+                        poetry[0] = str(count) + '、' + poetry[0]
+                        for text in poetry:
+                            f.write(text)
+                        count += 1
+
+
+def learn_method_39():
+    chapter_list = []
+    chapter = []
+    with open('./static/text.txt') as f:
+        lines = f.readlines()
+        for line in lines:
+            if line.__contains__("第") and line.__contains__("卷"):
+                continue
+            line = line.replace("　", "") \
+                .replace("，", "") \
+                .replace("。", "") \
+                .replace("；", "") \
+                .replace("！", "") \
+                .replace("、", "") \
+                .replace("？", "") \
+                .replace("：", "") \
+                .replace("“", "") \
+                .replace("”", "") \
+                .replace("‘", "") \
+                .replace("’", "") \
+                .replace("【", "") \
+                .replace("】", "") \
+                .replace("「", "") \
+                .replace("」", "") \
+                .replace("[ ", "") \
+                .replace("]", "") \
+                .replace(" ", "") \
+                .replace("~", "") \
+                .replace("·", "") \
+                .replace("（", "") \
+                .replace("）", "") \
+                .replace("+", "") \
+                .replace("》", "") \
+                .replace("\n", "") \
+                .replace("《", "")
+
+            if line.__contains__('第') and line.__contains__('章'):
+                chapter_list.append(chapter)
+                chapter = [line]
+                # print(line)
+            else:
+                chapter.append(line)
+        chapter_list.append(chapter)
+    print(chapter_list)
+    count_all = 0
+    count_0_all = 0
+    count_list = []
+    for chapter in chapter_list:
+        count = 0
+        for line in range(2, len(chapter)):
+            count += len(chapter[line])
+        print(chapter[0], count)
+        count_list.append(count)
+        count_all += count
+        if len(chapter)>1:
+            count_0_all += len(chapter[1])
+            print('卷',chapter[1], len(chapter[1]))
+    print(count_list)
+    count_list.pop(0)
+    print(count_list)
+    print(sorted(count_list))
+
+    print("文本长度",count_all)
+    print("标题长度",count_0_all)
+    with open('./static/道德经1.txt', "w") as f:
+        for chapter in chapter_list:
+            for text in chapter:
+                f.write(text)
+
+
+def learn_method_40():
+    chapter_list = []
+    chapter = []
+    with open('./static/text.txt') as f:
+        lines = f.readlines()
+        for line in lines:
+            if line.__contains__('第') and line.__contains__('章'):
+                continue
+
+            line = line.replace("　", "") \
+                .replace("，", "") \
+                .replace("。", "") \
+                .replace("；", "") \
+                .replace("！", "") \
+                .replace("、", "") \
+                .replace("？", "") \
+                .replace("：", "") \
+                .replace("“", "") \
+                .replace("”", "") \
+                .replace("‘", "") \
+                .replace("’", "") \
+                .replace("【", "") \
+                .replace("】", "") \
+                .replace("「", "") \
+                .replace("」", "") \
+                .replace("[ ", "") \
+                .replace("]", "") \
+                .replace(" ", "") \
+                .replace("~", "") \
+                .replace("·", "") \
+                .replace(".", "") \
+                .replace("（", "") \
+                .replace("）", "") \
+                .replace("+", "") \
+                .replace("》", "") \
+                .replace("0", "") \
+                .replace("1", "") \
+                .replace("2", "") \
+                .replace("3", "") \
+                .replace("4", "") \
+                .replace("5", "") \
+                .replace("6", "") \
+                .replace("7", "") \
+                .replace("8", "") \
+                .replace("9", "") \
+                .replace(";", "") \
+                .replace("?", "") \
+                .replace("？", "") \
+                .replace("\n", "") \
+                .replace("《", "")
+            chapter_list.append(line)
+    print(chapter_list)
+    count_all = 0
+    count_0_all = 0
+    count_list = []
+    for line in chapter_list:
+        count_all += len(line)
+    print(count_all)
+    with open('./static/道德经1.txt', "w") as f:
+        for chapter in chapter_list:
+            for text in chapter:
+                f.write(text)
+    start, end = 0,0
+    text_list=[]
+    with open('./static/道德经1.txt', "r") as f:
+        for line in f.readlines():
+            print(line.strip())
+            for i in range(0, len(line)):
+                start = i * 100
+                end = i * 100 + 100
+                if end > len(line):
+                    end = len(line)
+                    # line[start:end]
+                    text_list.append(line[start:end]+"\n")
+                    break
+                text_list.append(line[start:end]+"\n")
+    print(text_list)
+    with open('./static/道德经2.txt', "w") as f:
+        for text in text_list:
+            f.write(text)
+
+
+
 # 下载文件
 def download():
     url = 'https://my.linlongyun.com/api/signassistant/static/excel/2024-01-22/c0890d9d4e86212e1374249af4e4a01c_import_error.xlsx'  # 你要下载的文件的URL
@@ -990,6 +1231,8 @@ def hex_cal():
         print(hex(a))
         a = a + 54
         print(hex(a))
+
+
 def generate_random_string(length=12):
     characters = string.ascii_letters + string.digits + '!@#$%&*'
     # print(f"characters == {characters}")
@@ -1003,6 +1246,7 @@ def md5(password):
     h.update(password.encode("utf8"))
     password = h.hexdigest()
     print(f"password == {password}")
+
 
 def max_subarray_sum(nums):
     current_sum = max_sum = nums[0]
@@ -1143,5 +1387,10 @@ def learn_method_test():
 
 def learn_method():
     print("方法测试------------------------------------------------")
-    learn_method_test()
-    max_array()
+    # learn_method_test()
+    # max_array()
+    # for i in range(100,300):
+    #     print(i)
+    # learn_method_38()
+    # learn_method_39()
+    # learn_method_40()
