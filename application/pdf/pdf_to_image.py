@@ -28,3 +28,4 @@ def convert_pdf_to_images(pdf_path, output_folder):
 
         # 5.保存图像到指定文件夹
         pix.save(f"{output_folder}/{page_number + 1}.png")
+

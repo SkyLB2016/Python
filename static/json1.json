@@ -1,94 +1,62 @@
-{
-  "status": 200,
-  "message": "SUCCESS",
-  "msg": "SUCCESS",
-  "data": {
-    "return_key_list": [
-      {
-        "key": "company_name",
-        "field": "被邀请签约企业全称",
-        "button_type": "2"
-      },
-      {
-        "key": "company_credit_code",
-        "field": "被邀请签约企业统一信用代码",
-        "button_type": "2"
-      },
-      {
-        "key": "contact_name",
-        "field": "联系人姓名",
-        "button_type": "2"
-      },
-      {
-        "key": "contact_phone",
-        "field": "联系人手机号码",
-        "button_type": "2"
-      }
-    ],
-    "return_sign": [
-      {
-        "name": "被邀企业",
-        "signType": "手动签章",
-        "selectSign": "选择印章",
-        "type": 3,
-        "relation": [
-          {
-            "type": 1,
-            "value": 0,
-            "options": [
-              {
-                "label": "标准方案（公司认证套餐方案）",
-                "value": 0
-              }
+            title_list = [
+                {
+                    "title": "被邀请签约企业名称",
+                    "dataIndex": "company_name"
+                },
+                {
+                    "title": "被邀请签约企业统一信用代码",
+                    "dataIndex": "company_credit_code"
+                },
+                {
+                    "title": "客户名称",
+                    "dataIndex": "customer_name"
+                },
+                {
+                    "title": "签约方案名称",
+                    "dataIndex": "config_scheme"
+                },
+                {
+                    "title": "联系人姓名",
+                    "dataIndex": "contact_name"
+                },
+                {
+                    "title": "联系人手机号码",
+                    "dataIndex": "contact_phone"
+                },
+                {
+                    "title": "企业管理员身份",
+                    "dataIndex": "legal_type"
+                },
+                {
+                    "title": "企业管理员实名状态",
+                    "dataIndex": "contact_status"
+                },
+                {
+                    "title": "企业认证状态",
+                    "dataIndex": "verify_status"
+                },
+                {
+                    "title": "被邀企业导入时间",
+                    "dataIndex": "ctime"
+                },
+                {
+                    "title": "公司名称",
+                    "dataIndex": "a_company_name"
+                },
+                {
+                    "title": "公司签约状态",
+                    "dataIndex": "a_company_status"
+                },
+                {
+                    "title": "公司邀请签约时间",
+                    "dataIndex": "a_invite_time"
+                },
+                {
+                    "title": "公司签约完成时间",
+                    "dataIndex": "a_sign_time"
+                },
+                {
+                    "title": "公司作废/解约时间",
+                    "dataIndex": "a_fire_time"
+                }
             ]
-          },
-          {
-            "type": 1,
-            "value": 0,
-            "options": [
-              {
-                "label": "三要素补充（管理员认证套餐）",
-                "value": 0
-              }
-            ]
-          },
-          {
-            "type": 1,
-            "value": 0,
-            "options": [
-              {
-                "label": "上传证件照片",
-                "value": 0
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "name": "企业",
-        "signType": "手动签章",
-        "selectSign": "选择印章",
-        "type": 2,
-        "relation": [
-          {
-            "type": 1,
-            "value": 0,
-            "options": [
-              {
-                "label": "自动签章",
-                "value": 0
-              },
-              {
-                "label": "手动签章",
-                "value": 1
-              }
-            ]
-          }
-        ],
-        "selectSealList": [
-
-        ]
-      }
-    ]
-  }
-}

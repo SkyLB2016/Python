@@ -6,11 +6,12 @@ import os
 from PIL import Image
 
 from application import tools
+from application.pdf import pdf_to_image
 
 
 def create_pdf(image_path='static/pdf_images', save_path='static/pdf_new', file_name='人教版数学一年级上册预习卡'):
     """
-    Description: 根据图片列表生成 pdf_new 文件，图片需要以数字命名
+    Description: 根据图片列表生成一个 pdf_new 文件，图片需要以数字命名
     * @param image_path 图片路径
     * @param save_path pdf保存路径
     * @param file_name pdf文件名
@@ -32,7 +33,7 @@ def create_pdf(image_path='static/pdf_images', save_path='static/pdf_new', file_
     # print('图片列表，重排序  ==', pdf_images)
 
     # 文件路径
-    file_path = save_path + '/' + file_name + '.pdf_new'
+    file_path = save_path + '/' + file_name + '.pdf'
     # 4.将多个图像转换为PDF
     with open(file_path, "wb") as f:
         # img2pdf.AlphaChannelError: This function must not be called on pdf_images with alpha
@@ -44,7 +45,7 @@ def create_pdf(image_path='static/pdf_images', save_path='static/pdf_new', file_
 
 def create_pdf_two(image_path='static/pdf_images', save_path='static/pdf_new', file_name=''):
     """
-    Description: 根据图片列表生成多个正反 pdf_new 文件，图片需要以数字命名，并且根据奇偶分成两个数组，然后以10个为一组
+    Description: 课本模式：根据图片列表生成多个正反 pdf_new 文件，图片需要以数字命名，并且根据奇偶分成两个数组，然后以10个为一组
     * @param image_path 图片路径
     * @param save_path pdf保存路径
     * @param file_name pdf文件名
@@ -72,29 +73,29 @@ def create_pdf_two(image_path='static/pdf_images', save_path='static/pdf_new', f
     print("images_2", len(images_2), images_2)
 
     # 5.按十个一组划分
-    image_zheng = [images_1[i:i + 10] for i in range(0, len(images_1), 10)]
-    image_fan = [images_2[i:i + 10] for i in range(0, len(images_2), 10)]
-    # print("image_zheng", len(image_zheng), image_zheng)
-    # print("image_fan", len(image_fan), image_fan)
+    group = 10
+    image_zheng = [images_1[i:i + group] for i in range(0, len(images_1), group)]
+    image_fan = [images_2[i:i + group] for i in range(0, len(images_2), group)]
 
     # 6.正面的PDF
     for i in range(0, len(image_zheng)):
         print("image_zheng", len(image_zheng[i]), image_zheng[i])
-        file_path = save_path + '/' + file_name + str(i + 1) + '_正面.pdf_new'  # 正面文件路径
+        file_path = save_path + '/' + file_name + str(i + 1) + '_正面.pdf'  # 正面文件路径
         with open(file_path, "wb") as f:
             f.write(img2pdf.convert(image_zheng[i]))
 
     # 7.反面PDF
     for i in range(0, len(image_fan)):
         print("image_fan", len(image_fan[i]), image_fan[i])
-        file_path = save_path + '/' + file_name + str(i + 1) + '_反面.pdf_new'  # 反面面文件路径
+        file_path = save_path + '/' + file_name + str(i + 1) + '_反面.pdf'  # 反面面文件路径
         with open(file_path, "wb") as f:
             f.write(img2pdf.convert(image_fan[i]))
 
 
-def create_pdf_interval_two(image_path='static/pdf_images', save_path='static/pdf_new', file_name=''):
+def create_pdf_two1(image_path='static/pdf_images', save_path='static/pdf_new', file_name=''):
     """
-    Description: 根据图片列表生成正方面两个 pdf_new 文件，图片需要以数字命名，每页两张图片的打印方式
+    Description: 试卷模式：根据图片列表生成多个正反 pdf_new 文件，图片需要以数字命名，每页两张图片的打印方式，然后以10个为一组
+    例如：有 12345678 八页分为 1256，3478 两组
     * @param image_path 图片路径
     * @param save_path pdf保存路径
     * @param file_name pdf文件名
@@ -120,7 +121,7 @@ def create_pdf_interval_two(image_path='static/pdf_images', save_path='static/pd
     images_2 = []
     count = 0
     for i in range(0, len(images)):
-        print(i)
+        # print(i)
         if count < 2:
             images_1.append(images[i])
         else:
@@ -131,18 +132,28 @@ def create_pdf_interval_two(image_path='static/pdf_images', save_path='static/pd
     print("images_1", len(images_1), images_1)
     print("images_2", len(images_2), images_2)
 
-    # 5.将多个图像转换为PDF
-    file_path = save_path + '/' + file_name + '_正面.pdf_new'  # 正面文件路径
-    with open(file_path, "wb") as f:
-        f.write(img2pdf.convert(images_1))
+    # 5.按十个一组划分
+    group = 10
+    image_zheng = [images_1[i:i + group] for i in range(0, len(images_1), group)]
+    image_fan = [images_2[i:i + group] for i in range(0, len(images_2), group)]
 
-    # 6.反面PDF
-    file_path = save_path + '/' + file_name + '_反面.pdf_new'  # 反面面文件路径
-    with open(file_path, "wb") as f:
-        f.write(img2pdf.convert(images_2))
+    # 6.正面的PDF
+    for i in range(0, len(image_zheng)):
+        print("image_zheng", len(image_zheng[i]), image_zheng[i])
+        file_path = save_path + '/' + file_name + str(i + 1) + '_正面.pdf'  # 正面文件路径
+        with open(file_path, "wb") as f:
+            f.write(img2pdf.convert(image_zheng[i]))
+
+    # 7.反面PDF
+    for i in range(0, len(image_fan)):
+        print("image_fan", len(image_fan[i]), image_fan[i])
+        file_path = save_path + '/' + file_name + str(i + 1) + '_反面.pdf'  # 反面面文件路径
+        with open(file_path, "wb") as f:
+            f.write(img2pdf.convert(image_fan[i]))
 
 
-def create_pdf_alpha(image_path='static/pdf_images', save_path='static/pdf_new', file_name='人教版数学一年级上册预习卡'):
+def create_pdf_alpha(image_path='static/pdf_images', save_path='static/pdf_new',
+                     file_name='人教版数学一年级上册预习卡'):
     tools.check_path(save_path)
     images = [
         image_path + "/" + file_str  # 最终返回
@@ -156,7 +167,7 @@ def create_pdf_alpha(image_path='static/pdf_images', save_path='static/pdf_new',
     for img in images:
         process_image(img)
     # 文件路径
-    file_path = save_path + '/' + file_name + '.pdf_new'
+    file_path = save_path + '/' + file_name + '.pdf'
     # 将多个图像转换为PDF
     with open(file_path, "wb") as f:
         f.write(img2pdf.convert(images))
@@ -175,3 +186,30 @@ def process_image(image_path):
         image.save(image_path)
         print(image_path)
         # image.show()
+
+
+def main():
+    # 数学 单元活页卷.pdf
+    # 数学 王朝霞活页计算.pdf
+    # 语文 王朝霞单元活页卷.pdf
+    # 语文活页默写一上.pdf
+    # file_name = '数学 单元活页卷'
+    # file_name = '数学 王朝霞活页计算'
+    file_name = '语文 王朝霞单元活页卷'
+    # file_name = '语文活页默写一上'
+    # pdf_path = f'static/pdf_old/{file_name}.pdf'
+
+    # 1.pdf_new 转成图片
+    print("pdf文件拆分成图片")
+    # pdf_to_image.convert_pdf_to_images(f'static/pdf_old/{file_name}.pdf',
+    #                                    f'static/pdf_images/{file_name}')
+
+    # 2.图片生成一个pdf
+    # create_pdf(image_path=f'static/pdf_images/{file_name}',save_path=f'static/pdf_new/{file_name}', file_name=file_name)
+    # create_pdf_alpha(image_path=f'static/pdf_images/{file_name}', save_path=f'static/pdf_new/{file_name}', file_name=file_name)
+
+    # 3.课本模式：把生成的图片按奇偶拆分成多个 pdf_new，一个存正面，一个存反面
+    # create_pdf_two(image_path=f'static/pdf_images/{file_name}', save_path=f'static/pdf_new/{file_name}', file_name=file_name)
+    # 4.试卷模式：把生成的图片按 每页两个 图片的模式拆分成两个pdf，一个存正面，一个存反面
+    # create_pdf_two1(image_path=f'static/pdf_images/{file_name}', save_path=f'static/pdf_new/{file_name}', file_name=file_name)
+    pass

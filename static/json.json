@@ -41,19 +41,6 @@
         }
       ],
       "selectSealList": [
-        {
-          "id": 53,
-          "platform_id": "1724392202072593",
-          "name": "乔月四星公章",
-          "config_corp_id": 60,
-          "type": "official",
-          "upload_type": "template",
-          "url": "https://saas.bumuyun.cn/fileserver-image/fs/e7e62fb9f2eb42c0a0b91a55949f6246.png",
-          "status": 10,
-          "ctime": "2024-08-23 13:50:02",
-          "utime": null,
-          "corp_name": "乔月测试企业四星"
-        }
       ],
       "selectSealIndex": 0
     },

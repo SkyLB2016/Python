@@ -3,9 +3,9 @@ from PIL import Image
 from reportlab.lib.pagesizes import A3
 from reportlab.lib.units import mm
 from reportlab.pdfgen import canvas
-
+# 不好用
 def create_pdf():
-    path = '../static/pdf_images'
+    path = '../../static/pdf_images'
     # os.listdir('.')
     images = [path + "/" + d for d in os.listdir(path) if
               os.path.isfile(path + "/" + d) and os.path.splitext(d)[1] == '.png']
