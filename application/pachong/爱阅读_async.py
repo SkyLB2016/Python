@@ -5,7 +5,7 @@ import requests
 from bs4 import BeautifulSoup
 
 
-# 爬取 太平令 网站文本爬取
+# 爱阅读 网站文本爬取
 async def get_content():
     # 爬取网址
     url = 'https://www.aiyueyuedu.com/1050/1050967/index.html'
