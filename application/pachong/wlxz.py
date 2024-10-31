@@ -2,11 +2,12 @@ import requests
 from bs4 import BeautifulSoup
 
 
-# 爬取 万灵仙族 网站文本爬取
+# 爬取 4小说 网站文本爬取
 # url = "http://www.4xiaoshuo.info/188/188360/"
 #
 def get_content():
-    url = "http://www.4xiaoshuo.info/188/188360/"
+    # url = "http://www.4xiaoshuo.info/188/188360/"
+    url = "http://www.4xiaoshuo.info/188/188619/"
     # 发送HTTP请求
     response = requests.get(url)
     # if response.status_code == 200:
@@ -33,7 +34,7 @@ def get_content():
         chapter.append(save_chapter(chapter[1]))
 
     # # 保存到文件
-    output_file = "static/wlxz1.txt"
+    output_file = "static/cjgm.txt"
     with open(output_file, 'w', encoding='utf-8') as f:
         for chapter in chapters:
             f.write(chapter[0])

@@ -1,62 +1,18 @@
-            title_list = [
-                {
-                    "title": "被邀请签约企业名称",
-                    "dataIndex": "company_name"
-                },
-                {
-                    "title": "被邀请签约企业统一信用代码",
-                    "dataIndex": "company_credit_code"
-                },
-                {
-                    "title": "客户名称",
-                    "dataIndex": "customer_name"
-                },
-                {
-                    "title": "签约方案名称",
-                    "dataIndex": "config_scheme"
-                },
-                {
-                    "title": "联系人姓名",
-                    "dataIndex": "contact_name"
-                },
-                {
-                    "title": "联系人手机号码",
-                    "dataIndex": "contact_phone"
-                },
-                {
-                    "title": "企业管理员身份",
-                    "dataIndex": "legal_type"
-                },
-                {
-                    "title": "企业管理员实名状态",
-                    "dataIndex": "contact_status"
-                },
-                {
-                    "title": "企业认证状态",
-                    "dataIndex": "verify_status"
-                },
-                {
-                    "title": "被邀企业导入时间",
-                    "dataIndex": "ctime"
-                },
-                {
-                    "title": "公司名称",
-                    "dataIndex": "a_company_name"
-                },
-                {
-                    "title": "公司签约状态",
-                    "dataIndex": "a_company_status"
-                },
-                {
-                    "title": "公司邀请签约时间",
-                    "dataIndex": "a_invite_time"
-                },
-                {
-                    "title": "公司签约完成时间",
-                    "dataIndex": "a_sign_time"
-                },
-                {
-                    "title": "公司作废/解约时间",
-                    "dataIndex": "a_fire_time"
-                }
-            ]
+[
+        {
+            "label": "甲方地址",
+            "is_bind": 1,
+            "prop": "company_add",
+            "placeholder": "请输入"
+        },
+        {
+            "label": "甲方联系电话",
+            "is_bind": 1,
+            "prop": "legal_phone",
+            "placeholder": "请输入"
+        },
+  {
+            "prop": "legal_phone",
+            "placeholder": "请输入"
+        }
+    ]

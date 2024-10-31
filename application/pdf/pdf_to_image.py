@@ -3,16 +3,15 @@ import fitz  # PyMuPDF
 from application import tools
 
 
-def convert_pdf_to_images(pdf_path, output_folder):
+def convert_pdf_to_images(pdf_file, out_path):
     """
     Description: 根据图片列表生成正方面两个 pdf_new 文件，图片需要以数字命名，每页两张图片的打印方式
-    * @param pdf_path pdf_new 文件路径
-    * @param output_folder 图片保存路径
+    * @param pdf_file pdf_new 文件路径
+    * @param out_path 图片保存路径
     """
-
-    tools.check_path(output_folder)
+    tools.check_path(out_path)
     # 1.打开PDF文件
-    pdf_document = fitz.open(pdf_path)
+    pdf_document = fitz.open(pdf_file)
 
     for page_number in range(len(pdf_document)):
         # 2.获取页面
@@ -27,5 +26,4 @@ def convert_pdf_to_images(pdf_path, output_folder):
         pix = page.get_pixmap(matrix=mat, alpha=False)
 
         # 5.保存图像到指定文件夹
-        pix.save(f"{output_folder}/{page_number + 1}.png")
-
+        pix.save(f"{out_path}/{page_number + 1}.png")
