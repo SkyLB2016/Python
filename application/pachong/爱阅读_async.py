@@ -5,12 +5,12 @@ import requests
 from bs4 import BeautifulSoup
 
 
-# 爱阅读 网站文本爬取
+# 爱阅读 网站 文本爬取 好像已经挂了
 async def get_content():
     # 爬取网址
-    url = 'https://www.aiyueyuedu.com/1050/1050967/index.html'
+    url = 'https://www.aiyueyuedu.com'
     # 输出地址
-    output_file = "static/太平令.txt"
+    output_file = "static/txt/太平令.txt"
 
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
@@ -21,7 +21,7 @@ async def get_content():
     response.raise_for_status()  # 检查请求是否成功
     # 解析HTML
     soup = BeautifulSoup(response.text, 'html.parser')
-    # print("soup", soup)
+    print("soup", soup)
 
     # 查找目录列表
     chapter_list = soup.find('ul', id='chapterlist').find_all('a')
@@ -64,7 +64,7 @@ async def get_chapter(session, index, name, url):
                     html = await response.text()
                     # 解析HTML
                     soup = BeautifulSoup(html, 'html.parser')
-                    # print("soup", soup)
+                    print("soup", soup)
                     # 查找文章标题
                     title = soup.find('h1').text.strip()
                     print(title)
