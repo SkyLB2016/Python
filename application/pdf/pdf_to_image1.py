@@ -3,7 +3,6 @@ from pdf2image import convert_from_path
 from application import tools
 
 
-# 这个不好用
 def convert_pdf_to_images1(pdf_path, output_folder):
     tools.check_path(output_folder)
 

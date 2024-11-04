@@ -5,7 +5,7 @@ from application import tools
 
 def convert_pdf_to_images(pdf_file, out_path):
     """
-    Description: 根据图片列表生成正方面两个 pdf_new 文件，图片需要以数字命名，每页两张图片的打印方式
+    Description: 把 pdf 文件转成图片
     * @param pdf_file pdf_new 文件路径
     * @param out_path 图片保存路径
     """
