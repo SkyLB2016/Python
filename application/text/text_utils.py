@@ -290,9 +290,9 @@ def text_modify():
                 dynasty_map['佚名']['佚名'].append(poetry)
             else:
                 dynasty_map['佚名'] = {'佚名': [poetry]}
-    print("朝代列表", json.dumps(dynasty_map, ensure_ascii=False))
-    dynasty_keys = dynasty_map.keys()
-    print("朝代列表", dynasty_keys)
+    print("数据源", json.dumps(dynasty_map, ensure_ascii=False))
+    # dynasty_keys = dynasty_map.keys()
+    # print("朝代列表", dynasty_keys)
     dynasty_keys = [key for key in dynasty_map]
     print("朝代列表", dynasty_keys)
 
@@ -337,21 +337,21 @@ def text_modify():
         # print(sorted(auth_keys))
         # 根据定好的作者顺序输出
         if k == '唐':
-            # print("朝代", k, "作者列表", tang_keys)
+            print("朝代", k, "作者列表", tang_keys)
             count = 1
             count, title_list, poetry_list = write_text(tang_keys, count, f, poetry_map)
         elif k == '北宋':
-            #                 print("朝代", k, "作者列表", beisong_keys)
+            print("朝代", k, "作者列表", beisong_keys)
             count = 1
             count, title_list, poetry_list = write_text(beisong_keys, count, f, poetry_map)
         elif k == '南宋':
-            #                 print("朝代", k, "作者列表", nansong_keys)
+            print("朝代", k, "作者列表", nansong_keys)
             count, title_list, poetry_list = write_text(nansong_keys, count, f, poetry_map)
             count = 1
         else:
             if k == '毛泽东':
                 count = 1
-            #                 print("朝代", k, "作者列表", auth_keys)
+            print("朝代", k, "作者列表", auth_keys)
             count, title_list, poetry_list = write_text(auth_keys, count, f, poetry_map)
         title_all_list += title_list
         poetry_all_list += poetry_list
