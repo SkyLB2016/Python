@@ -5,6 +5,7 @@ import asyncio
 from application import learn
 from application.pachong import xiao_async, 爱阅读_async
 from application.pdf import create_pdf, pdf_to_image
+from application.text import text_utils
 
 # 控制台输入操作
 # s = input('birth: ')
@@ -30,5 +31,7 @@ learn.learn_method()
 # asyncio.run(爱阅读_async.get_content())
 
 # pdf 工具
-create_pdf.main()
+# create_pdf.main()
+# 文本工具
+text_utils.main()
 
