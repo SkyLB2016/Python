@@ -6,11 +6,13 @@ from bs4 import BeautifulSoup
 
 
 # 爬取 4小说 网站文本爬取
-async def get_content():
-    # 爬取网址
-    url = "http://www.4xiaoshuo.info/188/188619/"
-    # 文件名
-    file_name = "主母难当"
+async def get_content(url='', file_name=''):
+    # 爬取的网址 以及 文件名
+    # # url = "http://www.4xiaoshuo.info/188/188619/"
+    # # file_name = "主母难当"
+    url = "http://www.4xiaoshuo.info/190/190665/"
+    file_name = "泼刀行"
+
     # 输出地址
     output_file = f"static/txt/{file_name}.txt"
 
@@ -35,12 +37,15 @@ async def get_content():
     chapters = chapters[12:]
     # chapters.pop(1013)
     # print(chapters[3][1])
+    # 限制并发数量
+    semaphore = asyncio.Semaphore(10)  # 限制最多同时10个请求
+
     async with aiohttp.ClientSession() as session:
         tasks = []
         for i, chapter in enumerate(chapters):
             print(f"Chapter {i + 1}: {chapter[0]} - {chapter[1]}")
             # chapter.append(get_chapter(i, chapter[0], chapter[1]))
-            tasks.append(asyncio.create_task(get_chapter(session, i, chapter[0], chapter[1])))
+            tasks.append(asyncio.create_task(get_chapter(semaphore, session, i, chapter[0], chapter[1])))
         results = await asyncio.gather(*tasks)
     # print(results)
     print("异步任务个数", len(results))
@@ -52,11 +57,7 @@ async def get_content():
             f.write("\n")
 
 
-# 限制并发数量
-semaphore = asyncio.Semaphore(10)  # 限制最多同时10个请求
-
-
-async def get_chapter(session, index, name, url):
+async def get_chapter(semaphore, session, index, name, url):
     async with semaphore:
         try:
             async with session.get(url, ssl=False) as response:
@@ -87,6 +88,9 @@ async def get_chapter(session, index, name, url):
                     return index, name, text_content
                 else:
                     print("response.status==", response.status)
+                    return index, name, "获取失败"
 
         except Exception as e:
             print(f"失败 {url}: {e}")
+            return index, name, "获取失败"
+        # finally:semaphore

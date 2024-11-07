@@ -1,0 +1,30 @@
+{
+  "id": "chatcmpl-b845313a-912c-9c43-b64a-ce7510d4d5fb",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "我是Qwen，由阿里云研发的超大规模语言模型。我被设计用于生成各种类型的文本，如文章、故事、诗歌等，并能根据不同的场景和需求进行对话、提供信息查询、创作内容等服务。很高兴为您服务！",
+        "refusal": null,
+        "role": "assistant",
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1730099843,
+  "model": "qwen-plus",
+  "object": "chat.completion",
+  "service_tier": null,
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 53,
+    "prompt_tokens": 21,
+    "total_tokens": 74,
+    "completion_tokens_details": null,
+    "prompt_tokens_details": null
+  }
+}

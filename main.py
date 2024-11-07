@@ -27,11 +27,11 @@ learn.learn_method()
 # pachong_rj.download_images(url, save_folder="static/pdf_images")
 
 # 专项专用
-# asyncio.run(xiao_async.get_content())
+asyncio.run(xiao_async.get_content())
 # asyncio.run(爱阅读_async.get_content())
 
 # pdf 工具
 # create_pdf.main()
-# 文本工具
-text_utils.main()
 
+# 文本工具
+# text_utils.main()

@@ -38,11 +38,13 @@ def calculate_word():
     file_new_path = './static/text_new/text2.txt'
     chapter_list = []
     chapter = []
-    # contain_01="第"
-    # contain_02='卷'
-    # contain_03='章'
-    contain_01 = "、"
-    contain_02 = '  '
+    contain_01 = "第"
+    contain_02 = '节'
+    # contain_02 = '卷'
+    # contain_03 = '章'
+
+    # contain_01 = "、"
+    # contain_02 = '  '
     with open(file_path) as f:
         lines = f.readlines()
         for line in lines:
@@ -106,6 +108,7 @@ def calculate_word():
     count_list = []
     for chapter in chapter_list:
         count = 0
+        # 去掉标题，只统计内容字数
         for line in range(1, len(chapter)):
             count += len(chapter[line])
         print(chapter[0], count)
@@ -322,7 +325,9 @@ def text_modify():
 
     # 每首的顺序
     count = 1
+    # 目录
     title_all_list = []
+    # 内容
     poetry_all_list = []
     for k in keys:
         poetry_map = dynasty_map[k]
@@ -394,6 +399,6 @@ def write_text(tang_keys, count, f, poetry_map):
 
 
 def main():
-    text_modify()
+    # text_modify()
     # learn_method_40()
-    # calculate_word()
+    calculate_word()
