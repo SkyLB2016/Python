@@ -3,7 +3,7 @@
 import asyncio
 
 from application import learn
-from application.pachong import xiao_async, 爱阅读_async
+from application.pachong import xiao_async, xiao1_async, xiao2_async
 from application.pdf import create_pdf, pdf_to_image
 from application.text import text_utils
 
@@ -28,10 +28,22 @@ learn.learn_method()
 
 # 专项专用
 asyncio.run(xiao_async.get_content())
-# asyncio.run(爱阅读_async.get_content())
+# asyncio.run(xiao1_async.get_content())
+
 
 # pdf 工具
 # create_pdf.main()
 
 # 文本工具
 # text_utils.main()
+
+# ll= [11]
+# if 11 in ll:
+#     print("存在")
+# else:
+#     print('不存在')
+# ll.remove(11)
+# if ll:
+#     print('不为空')
+# else:
+#     print('为空')

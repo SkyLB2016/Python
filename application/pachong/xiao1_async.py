@@ -8,8 +8,8 @@ from bs4 import BeautifulSoup
 # 爬取 4小说 网站文本爬取
 async def get_content(url='', file_name=''):
     # 爬取的网址 以及 文件名
-    url = "http://www.4xiaoshuo.org/188/188619/"
-    file_name = "zmnd"
+    url = "http://www.4xiaoshuo.org/192/192273/"
+    file_name = "dy"
 
     # 输出地址
     output_file = f"static/txt/{file_name}.txt"
@@ -34,7 +34,7 @@ async def get_content(url='', file_name=''):
         chapter_url = url + chapter['href']
         chapters.append([chapter_name, chapter_url])
     chapters = chapters[12:]
-    chapters = chapters[510:]
+    chapters = chapters[:100]
     # chapters.pop(1013)
     # print(chapters[3][1])
     # 限制并发数量
@@ -102,3 +102,5 @@ async def get_chapter(semaphore, session, index, name, url):
             print(f"失败 {url}: {e}")
             return index, name, "获取失败"
         # finally:semaphore
+        #
+        #

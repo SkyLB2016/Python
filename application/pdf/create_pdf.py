@@ -155,21 +155,15 @@ def create_pdf_two1(image_path, save_path, file_name, group=10):
 
 
 def main():
-    # file_name = '数学 单元活页卷'
-    # # pdf_to_img(file_name)
+    # 11.19 24版一年级语文上册仿写句子.pdf
+    # 10.12一年级上册语文每日10分钟睡前默写小纸条(1).pdf
+    file_name = '11.19 24版一年级语文上册仿写句子'
+    # pdf_to_img(file_name)
     # image_to_pdf(file_name, 1)
-    #
-    # file_name = '数学 王朝霞活页计算'
-    # # pdf_to_img(file_name)
-    # image_to_pdf(file_name, 2)
-    #
-    file_name = '24秋53天天练1上语文-测评卷'
-    # pdf_to_img(file_name)
-    image_to_pdf(file_name, 1)
 
-    # file_name = '24秋53天天练1上语文-测评卷'
+    # file_name = '10.12一年级上册语文每日10分钟睡前默写小纸条(1)'
     # pdf_to_img(file_name)
-    # image_to_pdf(file_name, 2)
+    image_to_pdf(file_name, 2)
 
 
 def pdf_to_img(file_name):
