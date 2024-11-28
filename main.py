@@ -27,8 +27,8 @@ learn.learn_method()
 # pachong_rj.download_images(url, save_folder="static/pdf_images")
 
 # 专项专用
-asyncio.run(xiao_async.get_content())
-# asyncio.run(xiao1_async.get_content())
+xiao_async.get_content()
+xiao1_async.get_content()
 
 
 # pdf 工具

@@ -6,14 +6,16 @@ from bs4 import BeautifulSoup
 
 
 # 爬取 4小说 网站文本爬取
-async def get_content(url='', file_name=''):
+def get_content(url='', file_name=''):
     # 爬取的网址 以及 文件名
     url = "http://www.4xiaoshuo.org/188/188619/"
     file_name = "zmnd"
+    asyncio.run(get_chapter_list(url, file_name))
 
+
+async def get_chapter_list(url='', file_name=''):
     # 输出地址
     output_file = f"static/txt/{file_name}.txt"
-
     # 发送HTTP请求
     response = requests.get(url)
     # if response.status_code == 200:
