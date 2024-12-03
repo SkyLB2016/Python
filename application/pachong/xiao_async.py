@@ -10,10 +10,10 @@ def get_content(url='', file_name=''):
     # 爬取的网址 以及 文件名
     url = "http://www.4xiaoshuo.org/188/188619/"
     file_name = "zmnd"
-    asyncio.run(get_chapter_list(url, file_name))
+    asyncio.run(get_chapter_list(url, file_name, 549))
 
 
-async def get_chapter_list(url='', file_name=''):
+async def get_chapter_list(url='', file_name='', start=0):
     # 输出地址
     output_file = f"static/txt/{file_name}.txt"
     # 发送HTTP请求
@@ -22,7 +22,7 @@ async def get_chapter_list(url='', file_name=''):
     response.raise_for_status()  # 检查请求是否成功
     # 解析HTML
     soup = BeautifulSoup(response.text, 'html.parser')
-    # print("soup", soup)
+    print("soup", soup)
 
     # 查找目录列表
     chapter_list = soup.find('div', class_='listmain').find_all('a')
@@ -36,7 +36,7 @@ async def get_chapter_list(url='', file_name=''):
         chapter_url = url + chapter['href']
         chapters.append([chapter_name, chapter_url])
     chapters = chapters[12:]
-    chapters = chapters[545:]
+    chapters = chapters[start:]
     # chapters.pop(1013)
     # print(chapters[3][1])
     # 限制并发数量
