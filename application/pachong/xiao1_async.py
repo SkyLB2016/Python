@@ -39,7 +39,7 @@ async def get_chapter_list(url='', file_name='', start=0):
         chapter_url = 'https:' + chapter['href']
         chapters.append((chapter_name, chapter_url))
     # print("chapters", chapters)
-    # chapters = chapters[:]
+    chapters = chapters[100:200]
     # chapters = chapters[start:]
     # 限制并发数量
     semaphore = asyncio.Semaphore(10)  # 限制最多同时10个请求
@@ -83,7 +83,6 @@ async def get_chapter(semaphore, session, index, name, url):
                     title = soup.find('h1').text.strip()
                     print(title)
                     # # 查找目录列表
-                    # content_div = soup.find('div', class_='showtxt')
                     content_div = soup.find('div', id='content')
                     # print(chapter_list)
                     text_content = content_div.get_text(strip=False, separator='\n')
