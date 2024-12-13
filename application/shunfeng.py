@@ -36,7 +36,7 @@ semaphore = asyncio.Semaphore(10)  # 限制最多同时10个请求
 # 读取Excel文件
 async def analysis_excel_body(dir_path):
     try:
-        excel_cursor = xlrd.open_workbook('file/江西兴助网络科技有限公司_202409.xlsx', encoding_override='utf8')
+        excel_cursor = xlrd.open_workbook('file/江西兴助网络科技有限公司_202411.xlsx', encoding_override='utf8')
         sheets = excel_cursor.sheet_names()
         print("sheets", sheets)
         sheet_cursor = excel_cursor.sheet_by_index(0)
@@ -66,7 +66,7 @@ async def analysis_excel_body(dir_path):
                     asyncio.create_task(save_file(session, user_path + "-身份证反面图片.jpg", row[7], save_path)))
                 tasks.append(
                     asyncio.create_task(save_file(session, user_path + "-身份证手持图片.jpg", row[8], save_path)))
-                tasks.append(asyncio.create_task(save_file(session, user_path + "-协议信息.pdf_new", row[9], save_path)))
+                tasks.append(asyncio.create_task(save_file(session, user_path + "-协议信息.pdf", row[9], save_path)))
             # print('第', rows_number, '人')
             # 开始执行
             await asyncio.gather(*tasks)
@@ -91,9 +91,9 @@ async def save_file(session, name, url, save_path):
                             if not chunk:
                                 break
                             file.write(chunk)
-                    print(f'保存路径 {file_name}')
                 else:
                     print(f"Failed to download {url}, status code: {response.status}")
+                    print(f'保存失败，路径 {save_path}')
         except Exception as e:
             print(f"Error downloading {url}: {e}")
 
@@ -149,7 +149,7 @@ def create_zip_file(dir_name, files_to_zip):
                         for f in files:
                             zipf.write(os.path.join(root, f))
                             # print(2222222222222222, f)
-        print("ZIP文件创建成功")
+        # print("ZIP文件创建成功")
     except FileNotFoundError as e:
         print(f"文件未找到: {e}")
     except zipfile.BadZipFile as e:

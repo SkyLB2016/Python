@@ -9,12 +9,10 @@ from bs4 import BeautifulSoup
 def get_content(url='', file_name=''):
     # 爬取的网址 以及 文件名
     url = "https://www.shshaoshi.com/shi/352598/"
-    # url = "http://www.3kdoo.com/Lesen/230/230727/"
     # url = "http://www.156xsw.com/book/230_230717.html"
     # url = "https://www.0794.org/ea/230731/"
     file_name = "hzyh"
     asyncio.run(get_chapter_list(url, file_name, 1110))
-
 
 async def get_chapter_list(url='', file_name='', start=0):
     # 输出地址
@@ -39,7 +37,8 @@ async def get_chapter_list(url='', file_name='', start=0):
         chapter_url = 'https:' + chapter['href']
         chapters.append((chapter_name, chapter_url))
     # print("chapters", chapters)
-    chapters = chapters[100:200]
+    chapters = chapters[9:]
+    chapters = chapters[339:]
     # chapters = chapters[start:]
     # 限制并发数量
     semaphore = asyncio.Semaphore(10)  # 限制最多同时10个请求
