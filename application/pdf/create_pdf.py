@@ -47,7 +47,7 @@ def create_pdf(file_name):
 
 
 # def create_pdf_two(image_path, save_path, file_name, group=10):
-def create_pdf_two(image_path, save_path, file_name, group=10):
+def create_pdf_two(image_path, save_path, file_name,type_mode=1, group=20):
     """
     Description: 课本模式：根据图片列表生成多个正反 pdf_new 文件，图片需要以数字命名，并且根据奇偶分成两个数组，然后以10个为一组
     * @param image_path 图片路径
@@ -70,11 +70,29 @@ def create_pdf_two(image_path, save_path, file_name, group=10):
     # pdf_images = sorted(pdf_images, key=lambda x: int(x.split('/')[-1].split('.')[0]))
     # print('图片列表，重排序  ==', pdf_images)
 
-    # 4.间隔一个取出奇偶数组
-    images_1 = images[::2]  # 从零开始，间隔一个，取出全部数据，取 下标为偶数 的所有数据
-    images_2 = images[1::2]  # 从1开始，间隔一个，取出全部数据，取 下标为奇数 的所有数据
-    print("images_1", len(images_1), images_1)
-    print("images_2", len(images_2), images_2)
+    # 4.根据type_mode 选择模式
+    if type_mode == 1:
+        # 课本模式：一张两页，正方各一页，十个一组，一个存正面，一个存反面
+        images_1 = images[::2]  # 从零开始，间隔一个，取出全部数据，取 下标为偶数 的所有数据
+        images_2 = images[1::2]  # 从1开始，间隔一个，取出全部数据，取 下标为奇数 的所有数据
+        print("images_1", len(images_1), images_1)
+        print("images_2", len(images_2), images_2)
+    else:
+        # 试卷模式：一张四页，正反各两页，十个一组，一个存正面，一个存反面
+        images_1 = []
+        images_2 = []
+        count = 0
+        for i in range(0, len(images)):
+            # print(i)
+            if count < 2:
+                images_1.append(images[i])
+            else:
+                images_2.append(images[i])
+            count += 1
+            if count == 4:
+                count = 0
+        print("images_1", len(images_1), images_1)
+        print("images_2", len(images_2), images_2)
 
     # 5.按十个一组划分
     image_zheng = [images_1[i:i + group] for i in range(0, len(images_1), group)]
@@ -83,14 +101,14 @@ def create_pdf_two(image_path, save_path, file_name, group=10):
     # 6.正面的PDF
     for i in range(0, len(image_zheng)):
         print(f"image_zheng：正面第{i + 1}个", len(image_zheng[i]), image_zheng[i])
-        file_path = save_path + '/' + file_name + str(i + 1) + '_正面.pdf'  # 正面文件路径
+        file_path = f"{save_path}/{file_name}_{i+1}_正面.pdf"  # 正面文件路径
         with open(file_path, "wb") as f:
             f.write(img2pdf.convert(image_zheng[i]))
 
     # 7.反面PDF
     for i in range(0, len(image_fan)):
         print(f"image_fan：反面第{i + 1}个", len(image_fan[i]), image_fan[i])
-        file_path = save_path + '/' + file_name + str(i + 1) + '_反面.pdf'  # 反面面文件路径
+        file_path = f"{save_path}/{file_name}_{i+1}_反面.pdf"  # 反面文件路径
         with open(file_path, "wb") as f:
             f.write(img2pdf.convert(image_fan[i]))
 
@@ -157,13 +175,14 @@ def create_pdf_two1(image_path, save_path, file_name, group=10):
 def main():
     # 11.19 24版一年级语文上册仿写句子.pdf
     # 10.12一年级上册语文每日10分钟睡前默写小纸条(1).pdf
-    file_name = '11.19 24版一年级语文上册仿写句子'
+    # file_name = '11.19 24版一年级语文上册仿写句子'
     # pdf_to_img(file_name)
     # image_to_pdf(file_name, 1)
 
-    # file_name = '10.12一年级上册语文每日10分钟睡前默写小纸条(1)'
+    file_name = '一（上）数学期末复习八大专项'
     # pdf_to_img(file_name)
     image_to_pdf(file_name, 2)
+    # image_to_pdf(file_name, 1)
 
 
 def pdf_to_img(file_name):
@@ -181,9 +200,6 @@ def image_to_pdf(file_name, type_mode=1,group=20):
     save_path = f'static/pdf_new/{file_name}'
     # 2.图片生成一个pdf
     # create_pdf(image_path, save_path, file_name)
-    if type_mode == 1:
-        # 3.课本模式：把生成的图片按奇偶拆分成多个 pdf_new，十个一组，一个存正面，一个存反面
-        create_pdf_two(image_path, save_path, file_name, group)
-    else:
-        # 4.试卷模式：把生成的图片按 每页两个 图片的模式拆分成多个 pdf，十个一组，一个存正面，一个存反面
-        create_pdf_two1(image_path, save_path, file_name, group)
+
+    # 2.图片生成正方多个个pdf
+    create_pdf_two(image_path, save_path, file_name, type_mode,group)

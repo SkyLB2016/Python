@@ -8,11 +8,10 @@ from bs4 import BeautifulSoup
 # 爬取 4小说 网站文本爬取
 def get_content(url='', file_name=''):
     # 爬取的网址 以及 文件名
-    url = "http://www.123yqw.com/112/112357/"
-
-    file_name = "zn"
+    # url = "https://www.libahao.com/book/11971262_7233/"
+    url = "https://www.92yanqing.com/read/82328/"
+    file_name = "lz"
     asyncio.run(get_chapter_list(url, file_name, 1110))
-
 
 async def get_chapter_list(url='', file_name='', start=0):
     # 输出地址
@@ -25,11 +24,8 @@ async def get_chapter_list(url='', file_name='', start=0):
     soup = BeautifulSoup(response.text, 'html.parser')
     # print("soup", soup)
     # 查找目录列表
-    # chapter_list = soup.select('.row row-section dl dd a')
-    # print("chapter_list", chapter_list)
-    chapter_list = soup.select('.box_con dl dd a')
-    # chapter_list = soup.find('div', class_='row row-section').find_all('a')
-
+    # chapter_list = soup.select('.box_con dl dd a')
+    chapter_list = soup.select('.all ul li a')
     # print("chapter_list", chapter_list)
     print("chapter_list", len(chapter_list))
 
@@ -39,11 +35,16 @@ async def get_chapter_list(url='', file_name='', start=0):
     for chapter in chapter_list:
         chapter_name = chapter.text.strip()
         # title = chapter.get_text(strip=True)
-        chapter_url = 'http:' + chapter['href']
+        chapter_url = chapter['href']
         chapters.append((chapter_name, chapter_url))
+        chapter_url = chapter_url.replace('.html', '_2.html')
+        chapters.append(['', chapter_url])
+
     # print("chapters", chapters)
-    chapters = chapters[559:]
+    print("chapters", len(chapters))
+    # chapters = chapters[6:]
     # chapters = chapters[start:]
+    chapters = chapters[598:]
     # 限制并发数量
     semaphore = asyncio.Semaphore(10)  # 限制最多同时10个请求
 
@@ -60,6 +61,7 @@ async def get_chapter_list(url='', file_name='', start=0):
     with open(output_file, 'w', encoding='utf-8') as f:
         for chapter in results:
             f.write(chapter[1])
+            f.write("\n")
             f.write(chapter[2])
             f.write("\n")
 
@@ -86,8 +88,8 @@ async def get_chapter(semaphore, session, index, name, url):
                     title = soup.find('h1').text.strip()
                     print(title)
                     # # 查找目录列表
-                    content_div = soup.find('div', id='content')
-                    # print(chapter_list)
+                    content_div = soup.find('div', id='booktxt')
+                    # print(content_div)
                     text_content = content_div.get_text(strip=False, separator='\n')
                     # text_content = content_div.get_text()
                     # print(text_content)

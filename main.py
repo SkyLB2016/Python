@@ -28,14 +28,13 @@ learn.learn_method()
 
 # 专项专用
 # xiao_async.get_content()
-xiao1_async.get_content()
-# xiao3_async.get_content()
-# xiao4_async.get_content()
+# xiao1_async.get_content()
+xiao3_async.get_content()
 # 古诗文.get_content()
 
 
 # pdf 工具
-# create_pdf.main()`
+# create_pdf.main()
 
 # 文本工具
 # text_utils.main()

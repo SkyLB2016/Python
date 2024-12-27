@@ -8,9 +8,12 @@ from bs4 import BeautifulSoup
 # 爬取 4小说 网站文本爬取
 def get_content(url='', file_name=''):
     # 爬取的网址 以及 文件名
-    url = "http://www.4xiaoshuo.org/191/191182/"
-    file_name = "wsdm"
+    url = "http://www.4xiaoshuo.org/"
+    file_name = "w"
     asyncio.run(get_chapter_list(url, file_name, 0))
+    # url = ""
+    # file_name = ""
+    # asyncio.run(get_chapter_list(url, file_name, 0))
 
 
 async def get_chapter_list(url='', file_name='', start=0):
@@ -37,8 +40,7 @@ async def get_chapter_list(url='', file_name='', start=0):
         chapters.append([chapter_name, chapter_url])
     chapters = chapters[12:]
     chapters = chapters[start:]
-    # chapters.pop(1013)
-    # print(chapters[3][1])
+    chapters = chapters[0:100]
     # 限制并发数量
     semaphore = asyncio.Semaphore(10)  # 限制最多同时10个请求
 
@@ -46,7 +48,6 @@ async def get_chapter_list(url='', file_name='', start=0):
         tasks = []
         for i, chapter in enumerate(chapters):
             print(f"Chapter {i + 1}: {chapter[0]} - {chapter[1]}")
-            # chapter.append(get_chapter(i, chapter[0], chapter[1]))
             tasks.append(asyncio.create_task(get_chapter(semaphore, session, i, chapter[0], chapter[1])))
         results = await asyncio.gather(*tasks)
     # print(results)
@@ -58,13 +59,16 @@ async def get_chapter_list(url='', file_name='', start=0):
             f.write(chapter[2])
             f.write("\n")
 
-    # lines = []
-    # with open(output_file, 'r') as f:
-    #     lines = f.readlines()
-    # print('行数  ', len(lines))
-    # with open(output_file, 'w', encoding='utf-8') as f:
-    #     for line in lines:
-    #         f.write('#    ' + line)
+    lines = []
+    with open(output_file, 'r') as f:
+        lines = f.readlines()
+    print('行数  ', len(lines))
+    with open(output_file, 'w', encoding='utf-8') as f:
+        for line in lines:
+            f.write('#    ' + line)
+            # if '请记住本书首发域名' not in line:
+            #     f.write(line)
+
 
 
 async def get_chapter(semaphore, session, index, name, url):

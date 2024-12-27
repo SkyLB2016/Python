@@ -8,10 +8,8 @@ from bs4 import BeautifulSoup
 # 爬取 4小说 网站文本爬取
 def get_content(url='', file_name=''):
     # 爬取的网址 以及 文件名
-    url = "https://www.shshaoshi.com/shi/352598/"
-    # url = "http://www.156xsw.com/book/230_230717.html"
-    # url = "https://www.0794.org/ea/230731/"
-    file_name = "hzyh"
+    url = "http://www.4xiaoshuo.org/"
+    file_name = "z"
     asyncio.run(get_chapter_list(url, file_name, 1110))
 
 async def get_chapter_list(url='', file_name='', start=0):
@@ -25,7 +23,7 @@ async def get_chapter_list(url='', file_name='', start=0):
     soup = BeautifulSoup(response.text, 'html.parser')
     # print("soup", soup)
     # 查找目录列表
-    chapter_list = soup.select('.box_con dl dd a')
+    chapter_list = soup.select('.listmain dl dd a')
     # print("chapter_list", chapter_list)
 
     # 存储章节信息
@@ -34,12 +32,14 @@ async def get_chapter_list(url='', file_name='', start=0):
     for chapter in chapter_list:
         chapter_name = chapter.text.strip()
         # title = chapter.get_text(strip=True)
-        chapter_url = 'https:' + chapter['href']
+        # chapter_url = 'https://www.7qs.org' + chapter['href']
+        chapter_url = url + chapter['href']
         chapters.append((chapter_name, chapter_url))
+
     # print("chapters", chapters)
-    chapters = chapters[9:]
-    chapters = chapters[339:]
-    # chapters = chapters[start:]
+    print("chapters", len(chapters))
+    chapters = chapters[12:]
+    chapters = chapters[0:100]
     # 限制并发数量
     semaphore = asyncio.Semaphore(10)  # 限制最多同时10个请求
 
@@ -47,7 +47,6 @@ async def get_chapter_list(url='', file_name='', start=0):
         tasks = []
         for i, chapter in enumerate(chapters):
             print(f"Chapter {i + 1}: {chapter[0]} - {chapter[1]}")
-            # chapter.append(get_chapter(i, chapter[0], chapter[1]))
             tasks.append(asyncio.create_task(get_chapter(semaphore, session, i, chapter[0], chapter[1])))
         results = await asyncio.gather(*tasks)
     # print(results)
@@ -56,6 +55,7 @@ async def get_chapter_list(url='', file_name='', start=0):
     with open(output_file, 'w', encoding='utf-8') as f:
         for chapter in results:
             f.write(chapter[1])
+            f.write("\n")
             f.write(chapter[2])
             f.write("\n")
 
@@ -65,8 +65,11 @@ async def get_chapter_list(url='', file_name='', start=0):
     print('行数  ', len(lines))
     with open(output_file, 'w', encoding='utf-8') as f:
         for line in lines:
-            f.write('#    \n')
+            # f.write('#    \n')
             f.write('#    ' + line)
+            # if '请记住本书首发域名' not in line:
+            #     f.write(line)
+
 
 
 async def get_chapter(semaphore, session, index, name, url):
@@ -106,3 +109,4 @@ async def get_chapter(semaphore, session, index, name, url):
             print(f"失败 {url}: {e}")
             return index, name, "获取失败"
         # finally:semaphore
+
