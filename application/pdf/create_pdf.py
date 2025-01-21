@@ -53,6 +53,7 @@ def create_pdf_two(image_path, save_path, file_name,type_mode=1, group=20):
     * @param image_path 图片路径
     * @param save_path pdf保存路径
     * @param file_name pdf文件名
+    * @param type_mode 1课本模式（反正面共两页），2试卷模式（反正面共四页）
     """
     # 1.地址检查
     tools.check_path(save_path)
@@ -70,7 +71,7 @@ def create_pdf_two(image_path, save_path, file_name,type_mode=1, group=20):
     # pdf_images = sorted(pdf_images, key=lambda x: int(x.split('/')[-1].split('.')[0]))
     # print('图片列表，重排序  ==', pdf_images)
 
-    # 4.根据type_mode 选择模式
+    # 4.根据 type_mode 选择模式
     if type_mode == 1:
         # 课本模式：一张两页，正方各一页，十个一组，一个存正面，一个存反面
         images_1 = images[::2]  # 从零开始，间隔一个，取出全部数据，取 下标为偶数 的所有数据
@@ -179,10 +180,21 @@ def main():
     # pdf_to_img(file_name)
     # image_to_pdf(file_name, 1)
 
-    file_name = '一（上）数学期末复习八大专项'
+    # file_name = '2025春一下数学新教材-人教版'
+    # file_name = '2025春部编版小学语文一年级下册电子课本'
     # pdf_to_img(file_name)
-    image_to_pdf(file_name, 2)
-    # image_to_pdf(file_name, 1)
+    # type_mode，1课本模式，2试卷模式
+    # image_to_pdf(file_name, 1,group=21)
+
+    file_name = '一年级数学上册人教版24秋《68所期末冲刺卷》'
+    file_name = '一年级数学寒假作业每日一练-小张老师专属'
+    file_name = '新全优《15天满分备考期末系统总复习》（一上）'
+    file_name = '【数学-人教版】一年级下册预习卡-小张老师专属(2)(1)'
+    file_name = '2025春一下新版字帖（笔顺优先）'
+    pdf_to_img(file_name)
+    # type_mode，1课本模式，2试卷模式
+    image_to_pdf(file_name, 1)
+    # image_to_pdf(file_name, 2)
 
 
 def pdf_to_img(file_name):
@@ -192,7 +204,7 @@ def pdf_to_img(file_name):
     out_path = f'static/pdf_images/{file_name}'
     pdf_to_image.convert_pdf_to_images(pdf_file, out_path)
 
-
+#
 def image_to_pdf(file_name, type_mode=1,group=20):
     # 图片路径，
     image_path = f'static/pdf_images/{file_name}'
@@ -202,4 +214,4 @@ def image_to_pdf(file_name, type_mode=1,group=20):
     # create_pdf(image_path, save_path, file_name)
 
     # 2.图片生成正方多个个pdf
-    create_pdf_two(image_path, save_path, file_name, type_mode,group)
+    create_pdf_two(image_path, save_path, file_name, type_mode, group)
