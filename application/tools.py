@@ -13,3 +13,10 @@ def check_path(path):
         temp = f"{temp}{text}/"
         if not os.path.exists(temp):
             os.mkdir(temp)
+
+
+def check_path_dir(path):
+    if os.path.exists(path):
+        return path
+    os.makedirs(path)
+    return path

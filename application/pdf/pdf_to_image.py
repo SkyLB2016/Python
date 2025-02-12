@@ -3,16 +3,17 @@ import fitz  # PyMuPDF
 from application import tools
 
 
-def convert_pdf_to_images(pdf_file, out_path):
+def convert_pdf_to_images(pdf_file, out_path, offset=1):
     """
     Description: 把 pdf 文件转成图片
     * @param pdf_file pdf_new 文件路径
     * @param out_path 图片保存路径
+    * @param offset 文件后缀开始位置（拆解多个pdf文件时的时候会用到）
     """
     tools.check_path(out_path)
     # 1.打开PDF文件
     pdf_document = fitz.open(pdf_file)
-
+    index = 0
     for page_number in range(len(pdf_document)):
         # 2.获取页面
         page = pdf_document[page_number]
@@ -26,4 +27,6 @@ def convert_pdf_to_images(pdf_file, out_path):
         pix = page.get_pixmap(matrix=mat, alpha=False)
 
         # 5.保存图像到指定文件夹
-        pix.save(f"{out_path}/{page_number + 1}.png")
+        index = page_number + offset
+        pix.save(f"{out_path}/{index}.png")
+    return index

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import asyncio
+import datetime
 
 from application import learn
 from application.pachong import xiao_async, 古诗文, xiao2_async, xiao1_async, xiao3_async
@@ -27,14 +28,17 @@ learn.learn_method()
 # pachong_rj.download_images(url, save_folder="static/pdf_images")
 
 # 专项专用
-xiao_async.get_content()
+# xiao_async.get_content()
 # xiao1_async.get_content()
 # xiao3_async.get_content()
 # 古诗文.get_content()
 
 
 # pdf 工具
+# 处理单文件
 # create_pdf.main()
+# 处理多文件
+create_pdf.many_file()
 
 # 文本工具
 # text_utils.main()
@@ -49,4 +53,12 @@ xiao_async.get_content()
 #     print('不为空')
 # else:
 #     print('为空')
-print(8000/7500)
+# now = datetime.datetime.now()
+# print(16376327*0.51)
+# a= 1587+ 8334+ 199+ 63+ 320+ 4048+ 455+ 2837+ 103+ 732+ 530+ 3091+ 4179+ 1976+ 3672+ 807+ 2+ 966+ 3015+ 3015+ 930+ 7988+ 1813+ 2883+ 4904+ 1901+ 1312+ 3973+ 1313+ 3870+ 3285+ 1200+ 655+ 3944+ 520+ 6585+ 120+ 53+ 1405+ 2283+ 5594+ 2231+ 3481+ 3902+ 270+ 1320+ 3616+ 1334+ 1372+ 784+ 1023+ 3622+ 255+ 149+ 18+ 278+ 63+ 1664+ 287+ 508+ 432+ 1+ 5864+ 3994+ 615+ 2005+ 2415+ 4422+ 3028+ 16+ 903+ 1487+ 1100+ 3225+ 142+ 741+ 2363+ 407+ 5045+ 4048+ 5+ 1+ 493+ 157+ 2169+ 4171+ 7653+ 722+ 3341+ 1420+ 7056+ 3159+ 1+ 5022+ 1354+ 1633+ 469+ 49+ 53+ 4422+ 64+ 1053+ 2735+ 10+ 6231+ 3824+ 57+ 421+ 213+ 633+ 292+ 292+ 1695+ 429+ 413+ 3077+ 1091+ 2072+ 81+ 778+ 4430+ 1+ 3629+ 1475+ 5817+ 1142+ 875+ 1612
+# print(a)
+
+# a = 16576428+39116491
+# print(a)
+# print(16576428/88888)
+# print(15+32+28+26+27+11+17+15+15+18+21+30)

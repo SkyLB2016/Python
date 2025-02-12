@@ -1,4 +1,5 @@
 import io
+import shutil
 
 import img2pdf
 import os
@@ -47,7 +48,7 @@ def create_pdf(file_name):
 
 
 # def create_pdf_two(image_path, save_path, file_name, group=10):
-def create_pdf_two(image_path, save_path, file_name,type_mode=1, group=20):
+def create_pdf_two(image_path, save_path, file_name, type_mode=1, group=20):
     """
     Description: 课本模式：根据图片列表生成多个正反 pdf_new 文件，图片需要以数字命名，并且根据奇偶分成两个数组，然后以10个为一组
     * @param image_path 图片路径
@@ -102,14 +103,14 @@ def create_pdf_two(image_path, save_path, file_name,type_mode=1, group=20):
     # 6.正面的PDF
     for i in range(0, len(image_zheng)):
         print(f"image_zheng：正面第{i + 1}个", len(image_zheng[i]), image_zheng[i])
-        file_path = f"{save_path}/{file_name}_{i+1}_正面.pdf"  # 正面文件路径
+        file_path = f"{save_path}/{file_name}_{i + 1}_正面.pdf"  # 正面文件路径
         with open(file_path, "wb") as f:
             f.write(img2pdf.convert(image_zheng[i]))
 
     # 7.反面PDF
     for i in range(0, len(image_fan)):
         print(f"image_fan：反面第{i + 1}个", len(image_fan[i]), image_fan[i])
-        file_path = f"{save_path}/{file_name}_{i+1}_反面.pdf"  # 反面文件路径
+        file_path = f"{save_path}/{file_name}_{i + 1}_反面.pdf"  # 反面文件路径
         with open(file_path, "wb") as f:
             f.write(img2pdf.convert(image_fan[i]))
 
@@ -173,6 +174,65 @@ def create_pdf_two1(image_path, save_path, file_name, group=10):
             f.write(img2pdf.convert(image_fan[i]))
 
 
+def check_path(path):
+    if not os.path.exists(path):
+        os.makedirs(path)
+    return path
+
+
+def move_file():
+    dir_path = 'static/pdf_old'
+    list_file = [
+        dir_path + "/" + file_str
+        for file_str in os.listdir(dir_path)
+        if os.path.isfile(dir_path + "/" + file_str) and os.path.splitext(file_str)[1] == '.pdf'
+    ]
+    # print(list_file)
+    print(len(list_file))
+    # 是否需要移动兵筛选
+    dir_path_1 = check_path('static/pdf_old/答案')
+    dir_path_2 = check_path('static/pdf_old/正文')
+    # shutil.rmtree('static/pdf_old/答案')
+    for file in list_file:
+        if file.__contains__('答案'):
+            # shutil.copy(file, dir_path_1)
+            shutil.move(file, dir_path_1)
+        else:
+            # shutil.copy(file, dir_path_2)
+            shutil.move(file, dir_path_2)
+        print(file)
+
+
+def many_file():
+    # move_file()
+    # pdf 转图片
+    # dir_path = 'static/pdf_old/正文'
+    # list_file = [
+    #     dir_path + "/" + file_str
+    #     for file_str in os.listdir(dir_path)
+    #     if os.path.isfile(dir_path + "/" + file_str) and os.path.splitext(file_str)[1] == '.pdf'
+    # ]
+    # print(len(list_file))
+    # list_file.sort()
+    # index = 0
+    # list_file_1 = list_file[6:]
+    # list_file_2 = list_file[:6]
+    # out_path = 'static/pdf_images/正文'
+    # for file in list_file_1:
+    #     print(file)
+    #     index = pdf_to_image.convert_pdf_to_images(file, out_path, index + 1)
+    #     print(index)
+    # for file in list_file_2:
+    #     print(file)
+    #     index = pdf_to_image.convert_pdf_to_images(file, out_path, index + 1)
+    #     print(index)
+
+    image_path = 'static/pdf_images/正文'
+    save_path = 'static/pdf_new/阅读'
+    # type_mode，1课本模式，2试卷模式
+    create_pdf_two(image_path, save_path, "寒假阅读理解", 1)
+
+
 def main():
     # 11.19 24版一年级语文上册仿写句子.pdf
     # 10.12一年级上册语文每日10分钟睡前默写小纸条(1).pdf
@@ -186,10 +246,6 @@ def main():
     # type_mode，1课本模式，2试卷模式
     # image_to_pdf(file_name, 1,group=21)
 
-    file_name = '一年级数学上册人教版24秋《68所期末冲刺卷》'
-    file_name = '一年级数学寒假作业每日一练-小张老师专属'
-    file_name = '新全优《15天满分备考期末系统总复习》（一上）'
-    file_name = '【数学-人教版】一年级下册预习卡-小张老师专属(2)(1)'
     file_name = '2025春一下新版字帖（笔顺优先）'
     pdf_to_img(file_name)
     # type_mode，1课本模式，2试卷模式
@@ -204,8 +260,9 @@ def pdf_to_img(file_name):
     out_path = f'static/pdf_images/{file_name}'
     pdf_to_image.convert_pdf_to_images(pdf_file, out_path)
 
+
 #
-def image_to_pdf(file_name, type_mode=1,group=20):
+def image_to_pdf(file_name, type_mode=1, group=20):
     # 图片路径，
     image_path = f'static/pdf_images/{file_name}'
     # 保存路径
