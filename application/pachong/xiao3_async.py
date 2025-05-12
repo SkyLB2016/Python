@@ -8,10 +8,9 @@ from bs4 import BeautifulSoup
 # 爬取 4小说 网站文本爬取
 def get_content(url='', file_name=''):
     # 爬取的网址 以及 文件名
-    url = "https://www.shshaoshi.com/shi/240885/"
-    file_name = "tmfp"
-    # asyncio.run(get_chapter_list(url, file_name, 598))
-    asyncio.run(get_chapter_list(url, file_name, 0,758))
+    url = "https://www.xqianqian.com/6/6661/"
+    file_name = "一别两宽"
+    asyncio.run(get_chapter_list(url, file_name, 0))
 
 
 async def get_chapter_list(url='', file_name='', start=0, end=9999):
@@ -36,7 +35,7 @@ async def get_chapter_list(url='', file_name='', start=0, end=9999):
     for chapter in chapter_list:
         chapter_name = chapter.text.strip()
         # title = chapter.get_text(strip=True)
-        chapter_url ="https:"+ chapter['href']
+        chapter_url ="http://www.xhytd.com"+ chapter['href']
         chapters.append((chapter_name, chapter_url))
         # chapter_url = chapter_url.replace('.html', '_2.html')
         # chapters.append(['', chapter_url])
@@ -85,11 +84,14 @@ async def get_chapter(semaphore, session, index, name, url):
                     soup = BeautifulSoup(html, 'html.parser')
                     # print("soup", soup)
                     # 查找文章标题
-                    title = soup.find('h1').text.strip()
-                    print(title)
+                    # title = soup.find('h1').text.strip()
+                    # print(title)
                     # # 查找目录列表
                     # content_div = soup.find('div', id='booktxt')
                     content_div = soup.find('div', id='content')
+                    # soup = soup.find('div', class_='content_read')
+                    # soup = soup.find('div', class_='box_con')
+                    # content_div = soup.find('div', id='content')
                     # print(content_div)
                     text_content = content_div.get_text(strip=False, separator='\n')
                     # text_content = content_div.get_text()

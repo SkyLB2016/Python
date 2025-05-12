@@ -397,7 +397,17 @@ def write_text(tang_keys, count, f, poetry_map):
     # print(poetry_list)
     return count, title_list, poetry_list
 
+def read_dd():
+    file_path = './static/text_old/dd.txt'
 
+    chapter_list = []
+    with open(file_path,encoding="gbk") as f:
+        f.readline()
+        lines = f.readline()
+        print(len(lines))
+        # lines = f.readline()
+        # print(lines)
+    print("列表长度", len(chapter_list))
 def main():
     # text_modify()
     # learn_method_40()

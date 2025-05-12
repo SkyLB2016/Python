@@ -1,28 +1,33 @@
 import os
 from PIL import Image
-from reportlab.lib.pagesizes import A3
+from reportlab.lib.pagesizes import A3,A5
 from reportlab.lib.units import mm
 from reportlab.pdfgen import canvas
 # 不好用
-def create_pdf():
-    path = '../../static/pdf_images'
+def create_pdf(file_name):
+    image_path = f'static/pdf_images/{file_name}'
+    save_path = f'static/pdf_new/{file_name}'
     # os.listdir('.')
-    images = [path + "/" + d for d in os.listdir(path) if
-              os.path.isfile(path + "/" + d) and os.path.splitext(d)[1] == '.png']
+    # 2.获取图片
+    images = [
+        image_path + "/" + file_str  # 最终返回
+        for file_str in os.listdir(image_path)  # 循环
+        if os.path.isfile(image_path + "/" + file_str) and os.path.splitext(file_str)[1] == '.png'  # 返回条件
+    ]
     print('图片列表  ==', images)
     images.sort()
     print('图片列表，重排序  ==', images)
-    # AC=(A3[0],A3[1])
+    AC=(A5[0],A5[1])
     # A3 = (297*mm,420*mm)
 
     # AC = (330*mm,480*mm)
-    AC = (370*mm,500*mm)
+    # AC = (370*mm,500*mm)
 
     # 创建一个新的PDF画布
-    c = canvas.Canvas("../static/output.pdf_new", pagesize=AC)
+    c = canvas.Canvas(f"{save_path}/{file_name}.pdf", pagesize=AC)
 
     # 打开图像并获取其尺寸
-    image_path = '../static/pdf_images/10.png'
+    image_path = image_path+'/1.png'
     image = Image.open(image_path)
     width, height = image.size
 

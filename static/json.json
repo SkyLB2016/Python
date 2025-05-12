@@ -1,0 +1,104 @@
+[
+  [
+    {
+      "pagenum": 0,
+      "x": 350,
+      "y": 350
+    },
+    {
+      "pagenum": 1,
+      "x": 350.225,
+      "y": 750
+    }
+  ],
+
+
+
+  [
+    {
+      "id": 0,
+      "pagenum": 1,
+      "x": 171,
+      "y": 99,
+      "type": 1,
+      "pageWidth": 842,
+      "pageHeight": 595
+    },
+    {
+      "id": 1,
+      "pagenum": 1,
+      "x": 508,
+      "y": 254,
+      "type": 2,
+      "pageWidth": 842,
+      "pageHeight": 595
+    },
+    {
+      "id": 1,
+      "pagenum": 1,
+      "x": 508,
+      "y": 254,
+      "type": 3,
+      "pageWidth": 842,
+      "pageHeight": 595
+    }
+  ],
+
+
+  {
+    "person": [
+      {
+        "id": 1,
+        "pagenum": 1,
+        "x": 508,
+        "y": 254,
+        "pageWidth": 842,
+        "pageHeight": 595
+      },
+      {
+        "id": 1,
+        "pagenum": 1,
+        "x": 508,
+        "y": 254,
+        "pageWidth": 842,
+        "pageHeight": 595
+      }
+    ],
+    "corp": [
+      {
+        "id": 1,
+        "pagenum": 1,
+        "x": 508,
+        "y": 254,
+        "pageWidth": 842,
+        "pageHeight": 595
+      },
+      {
+        "id": 1,
+        "pagenum": 1,
+        "x": 508,
+        "y": 254,
+        "pageWidth": 842,
+        "pageHeight": 595
+      }
+    ],
+    "company": [
+      {
+        "id": 1,
+        "pagenum": 1,
+        "x": 508,
+        "y": 254,
+        "pageWidth": 842,
+        "pageHeight": 595
+      },
+      {
+        "id": 1,
+        "pagenum": 1,
+        "x": 508,
+        "y": 254,
+        "pageWidth": 842,
+        "pageHeight": 595
+      }
+    ]
+  }
+]

@@ -234,23 +234,17 @@ def many_file():
 
 
 def main():
-    # 11.19 24版一年级语文上册仿写句子.pdf
-    # 10.12一年级上册语文每日10分钟睡前默写小纸条(1).pdf
-    # file_name = '11.19 24版一年级语文上册仿写句子'
+    file_name = '一（下）语文高频考点通关密卷'
     # pdf_to_img(file_name)
-    # image_to_pdf(file_name, 1)
+    image_to_pdf(file_name, 2)
 
-    # file_name = '2025春一下数学新教材-人教版'
-    # file_name = '2025春部编版小学语文一年级下册电子课本'
+    # file_name = '一年级数学下册人教版25春'
     # pdf_to_img(file_name)
     # type_mode，1课本模式，2试卷模式
-    # image_to_pdf(file_name, 1,group=21)
-
-    file_name = '2025春一下新版字帖（笔顺优先）'
-    pdf_to_img(file_name)
-    # type_mode，1课本模式，2试卷模式
-    image_to_pdf(file_name, 1)
     # image_to_pdf(file_name, 2)
+    # image_to_pdf(file_name, 2,group=40)
+    # 生成一个pdf
+    # create_pdf(file_name)
 
 
 def pdf_to_img(file_name):
@@ -259,6 +253,7 @@ def pdf_to_img(file_name):
     pdf_file = f'static/pdf_old/{file_name}.pdf'
     out_path = f'static/pdf_images/{file_name}'
     pdf_to_image.convert_pdf_to_images(pdf_file, out_path)
+    # pdf_to_image.convert_a4_to_a5(pdf_file, out_path)
 
 
 #
@@ -268,7 +263,7 @@ def image_to_pdf(file_name, type_mode=1, group=20):
     # 保存路径
     save_path = f'static/pdf_new/{file_name}'
     # 2.图片生成一个pdf
-    # create_pdf(image_path, save_path, file_name)
+    # create_pdf(file_name)
 
     # 2.图片生成正方多个个pdf
     create_pdf_two(image_path, save_path, file_name, type_mode, group)

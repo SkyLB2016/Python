@@ -5,14 +5,14 @@ import requests
 from bs4 import BeautifulSoup
 
 
-# 爬取 4小说 网站文本爬取
-async def get_content(url='', file_name=''):
+def get_content(url='', file_name=''):
     # 爬取的网址 以及 文件名
-    # url = "https://m.lewensw.org/985/985528/"
-    # # url = "https://m.lewensw.org/297/985528_2/"
-    # # url = "https://m.lewensw.org/297/985528_1/"
-    # file_name = "曾经"
+    url = 'https://www.1kans.net/62/62090/'
+    file_name = "暴君0"
+    asyncio.run(get_chapter_list(url, file_name, 0))
 
+
+async def get_chapter_list(url='', file_name='', start=0, end=9999):
     # 输出地址
     output_file = f"static/txt/{file_name}.txt"
 
@@ -25,21 +25,25 @@ async def get_content(url='', file_name=''):
     # print("soup", soup)
 
     # 查找目录列表
-    chapter_list = soup.find('ul', class_='chapter').find_all('a')
+    chapter_list = soup.find('ul', class_='fix section-list').find_all('a')
+    # chapter_list = soup.find('ul', class_='section-list fix ycxsid').find_all('a')
     print("chapter_list", chapter_list)
 
     # 存储章节信息
     chapters = []
-    # url = "https://m.lewensw.org/books/985528/86824532.html"
-    # url = "https://m.lewensw.org/books/985528/86824532_2.html"
-
+    # https://www.1kans.net/62/62090/106357087_1.html
     for chapter in chapter_list:
         chapter_name = chapter.text.strip()
-        chapter_url = 'https://m.lewensw.org' + chapter['href']
+        # http://www.yeyexsw.cc/books/139440/27321378.html
+        chapter_url = 'https://www.1kans.net' + chapter['href']
         chapters.append([chapter_name, chapter_url])
-        chapter_url = chapter_url.replace('.html', '_2.html')
-        chapters.append(['', chapter_url])
-    # chapters = chapters[19:]
+        chapter_url1 = chapter_url.replace('.html', '_1.html')
+        chapters.append(['', chapter_url1])
+        chapter_url2 = chapter_url.replace('.html', '_2.html')
+        chapters.append(['', chapter_url2])
+    # chapters = chapters[12:]
+    chapters = chapters[start:end]
+
     # 限制并发数量
     semaphore = asyncio.Semaphore(10)  # 限制最多同时10个请求
 
@@ -52,15 +56,36 @@ async def get_content(url='', file_name=''):
         results = await asyncio.gather(*tasks)
     # print(results)
     print("异步任务个数", len(results))
+    exits_text = []
     # 保存到文件
     with open(output_file, 'w', encoding='utf-8') as f:
         for chapter in results:
             f.write(chapter[1])
-            f.write(chapter[2])
             f.write("\n")
+            line_list = str(chapter[2]).split('\n')
+            # for i,line in enumerate(line_list):
+            for i in range(6, len(line_list) - 4):
+                line_text = line_list[i].strip()
+                if i == 6:
+                    if line_text in exits_text:
+                        # print("重复", line_text)
+                        break
+                    else:
+                        exits_text.append(line_text)
+                f.write(line_text)
+                f.write("\n")
+            # f.write("\n")
 
-    # lines = []
-    # with œ   f.write('#    ' + line)
+    lines = []
+    with open(output_file, 'r') as f:
+        lines = f.readlines()
+    print('行数  ', len(lines))
+    with open(output_file, 'w', encoding='utf-8') as f:
+        for line in lines:
+            if '[]' not in line:
+                # f.write('#    \n')
+                # f.write('#    ' + line)
+                f.write(line)
 
 
 async def get_chapter(semaphore, session, index, name, url):
@@ -73,13 +98,11 @@ async def get_chapter(semaphore, session, index, name, url):
                     soup = BeautifulSoup(html, 'html.parser')
                     # print("soup", soup)
                     # 查找文章标题
-                    title = soup.find('h1').text.strip()
+                    title = soup.find('h2').text.strip()
                     print(title)
                     # # 查找目录列表
-                    content_div = soup.find('div', id='nr_hpurgj')
-                    content_div = soup.find('div', class_='nr_nr')
-                    content_div = soup.find('div', id='ccc')
-                    # print(chapter_list)
+                    # content_div = soup.find('div', class_='container')
+                    content_div = soup.find('div', class_='word_read')
                     text_content = content_div.get_text(strip=False, separator='\n')
                     # text_content = content_div.get_text()
                     # print(text_content)
@@ -99,6 +122,6 @@ async def get_chapter(semaphore, session, index, name, url):
                     return index, name, "获取失败"
 
         except Exception as e:
-            print(f"失败 {url}: {e}")
+            print(f"失败 {name}：{url}: {e}")
             return index, name, "获取失败"
         # finally:semaphore

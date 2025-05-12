@@ -2,10 +2,16 @@
 # -*- coding: utf-8 -*-
 import asyncio
 import datetime
+import hashlib
+import string
+import random
+
+import bcrypt
 
 from application import learn
-from application.pachong import xiao_async, 古诗文, xiao2_async, xiao1_async, xiao3_async
-from application.pdf import create_pdf, pdf_to_image
+from application.pachong import xiao_async, 古诗文, xiao2_async, xiao1_async, xiao3_async, text_async, html_async, \
+    xiao4_async
+from application.pdf import create_pdf, pdf_to_image, create_pdf2
 from application.text import text_utils
 
 # 控制台输入操作
@@ -30,18 +36,29 @@ learn.learn_method()
 # 专项专用
 # xiao_async.get_content()
 # xiao1_async.get_content()
+# xiao2_async.get_content()
 # xiao3_async.get_content()
+xiao4_async.get_content()
 # 古诗文.get_content()
-
+# text_async.get_content()
+# html_async.get_content()
+# photo_restoration('static/image/laoye.jpg', 'static/image/laoye_new.jpg')
+# restore_photo(
+#         input_path="static/image/laoye.jpg",  # 输入文件路径
+#         output_color="static/image/laoye_caise.jpg",  # 彩色输出路径
+#         output_bw="static/image/laoye_heibai.jpg"  # 黑白输出路径
+#     )
 
 # pdf 工具
 # 处理单文件
 # create_pdf.main()
+# create_pdf2.create_pdf('25一下课课贴')
 # 处理多文件
-create_pdf.many_file()
+# create_pdf.many_file()
 
 # 文本工具
 # text_utils.main()
+# text_utils.read_dd()
 
 # ll= [11]
 # if 11 in ll:
@@ -62,3 +79,19 @@ create_pdf.many_file()
 # print(a)
 # print(16576428/88888)
 # print(15+32+28+26+27+11+17+15+15+18+21+30)
+# res = 8.88178419700125E-16
+# print(res)
+# print(round(res, 3))
+# print("{:.2f}".format(res))
+# print("直营优选总数据量：", 7920000 + 7599530)
+# # 共有8588665条
+# print("霖润众包共有：8588665条")
+# print("霖珑众包共有：37916492")
+# print("众包共有：", 37916492 + 8588665)
+# print("重复数据有：", 9497789 - 4088817)
+# print("不重复数据共有：", 7920000 + 7599530 - 9497789 + 4088817)
+# # INSERT INTO MY_TABLE(`count()`, `sum(count)`) VALUES (4088817, 9497789);
+# print("霖珑共有：", 37916492 + 16576428)
+# print("霖珑共有：", 54155189)
+# print("霖珑共有：", 54492920-54155189)
+# print("共有：", 37916492 + 8588665 + 16576428)
