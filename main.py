@@ -9,8 +9,7 @@ import random
 import bcrypt
 
 from application import learn
-from application.pachong import xiao_async, 古诗文, xiao2_async, xiao1_async, xiao3_async, text_async, html_async, \
-    xiao4_async
+from application.pachong import xiao_async, 古诗文, xiao2_async, xiao1_async, text_async
 from application.pdf import create_pdf, pdf_to_image, create_pdf2
 from application.text import text_utils
 
@@ -35,10 +34,8 @@ learn.learn_method()
 
 # 专项专用
 # xiao_async.get_content()
-# xiao1_async.get_content()
+xiao1_async.get_content()
 # xiao2_async.get_content()
-# xiao3_async.get_content()
-xiao4_async.get_content()
 # 古诗文.get_content()
 # text_async.get_content()
 # html_async.get_content()

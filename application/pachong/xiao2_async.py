@@ -31,10 +31,8 @@ async def get_chapter_list(url='', file_name='', start=0, end=9999):
 
     # 存储章节信息
     chapters = []
-    # https://www.1kans.net/62/62090/106357087_1.html
     for chapter in chapter_list:
         chapter_name = chapter.text.strip()
-        # http://www.yeyexsw.cc/books/139440/27321378.html
         chapter_url = 'https://www.1kans.net' + chapter['href']
         chapters.append([chapter_name, chapter_url])
         chapter_url1 = chapter_url.replace('.html', '_1.html')
@@ -100,22 +98,12 @@ async def get_chapter(semaphore, session, index, name, url):
                     # 查找文章标题
                     title = soup.find('h2').text.strip()
                     print(title)
-                    # # 查找目录列表
+                    # 查找文章内容
                     # content_div = soup.find('div', class_='container')
                     content_div = soup.find('div', class_='word_read')
                     text_content = content_div.get_text(strip=False, separator='\n')
                     # text_content = content_div.get_text()
                     # print(text_content)
-
-                    # # 查找文章内容
-                    # content_div = soup.find('div', class_='content')
-                    # content_div = soup.find('div', id='content')
-                    #
-                    # text_content = content_div.get_text(strip=False, separator='\n')
-                    # print(text_content)
-                    # output_file = "static/chapters1.txt"
-                    # with open(output_file, 'w', encoding='utf-8') as f:
-                    #     f.write(text_content)
                     return index, name, text_content
                 else:
                     print("response.status==", response.status)

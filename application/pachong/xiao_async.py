@@ -12,27 +12,31 @@ from bs4 import BeautifulSoup
 # usr/bin/google-chrome
 # DevTools listening on ws://127.0.0.1:9223/devtools/browser/e949bf00-aac2-4529-9886-0a236e8ece34
 
+headers = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.1234.567 Safari/537.36',
+    # 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+    'Accept': 'text/html,application/xhtml+xml',
+    'Connection': 'keep-alive',
+    'Accept-Language': 'en-US,en;q=0.9'
+}
+
 # 爬取 4小说 网站文本爬取
 def get_content(url='', file_name=''):
     # 爬取的网址 以及 文件名
     # url = "http://www.4xiaoshuo.org/198/198862/"
     # file_name = "没钱修什么仙"
     # asyncio.run(get_chapter_list(url, file_name, 299))
-    url = "https://www.xxyanqing.net/book/50133999/"
-    file_name = "mlg"
-    asyncio.run(get_chapter_list(url, file_name, 0))
-    # url = "http://www.4xiaoshuo.org/162/162265/"
-    # file_name = "仙人"
-    # start = 2172
-    # end = start + 8
-    # asyncio.run(get_chapter_list(url, file_name, start, end))
-
+    url = "http://www.4xiaoshuo.org/162/162265/"
+    file_name = "仙人"
+    start = 2179
+    end = start + 8
+    asyncio.run(get_chapter_list(url, file_name, start, end))
 
 async def get_chapter_list(url='', file_name='', start=0, end=9999):
     # 输出地址
     output_file = f"static/txt/{file_name}.txt"
     # 发送HTTP请求=
-    response = requests.get(url)
+    response = requests.get(url, headers=headers)
     # if response.status_code == 200:
     response.raise_for_status()  # 检查请求是否成功
     # 解析HTML
@@ -83,8 +87,8 @@ async def get_chapter_list(url='', file_name='', start=0, end=9999):
     with open(output_file, 'w', encoding='utf-8') as f:
         for line in lines:
             if '请记住本书首发域名' not in line:
-                f.write(line)
-                # f.write('#    ' + line)
+                # f.write(line)
+                f.write('#    ' + line)
 
 
 async def get_chapter(semaphore, session, index, name, url):
@@ -99,22 +103,16 @@ async def get_chapter(semaphore, session, index, name, url):
                     # 查找文章标题
                     title = soup.find('h1').text.strip()
                     print(title)
-                    # # 查找目录列表
+
+                    # 查找文章内容
                     content_div = soup.find('div', class_='showtxt')
-                    # print(chapter_list)
+                    # print(content_div)
+                    # content_div = soup.find('div', id='content')
+                    # print(content_div)
                     text_content = content_div.get_text(strip=False, separator='\n')
                     # text_content = content_div.get_text()
                     # print(text_content)
 
-                    # # 查找文章内容
-                    # content_div = soup.find('div', class_='content')
-                    # content_div = soup.find('div', id='content')
-                    #
-                    # text_content = content_div.get_text(strip=False, separator='\n')
-                    # print(text_content)
-                    # output_file = "static/chapters1.txt"
-                    # with open(output_file, 'w', encoding='utf-8') as f:
-                    #     f.write(text_content)
                     return index, name, text_content
                 else:
                     print("response.status==", response.status)
