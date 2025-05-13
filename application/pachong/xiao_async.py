@@ -4,7 +4,7 @@ import aiohttp
 import requests
 from bs4 import BeautifulSoup
 
-
+# curl 'https://www.24kxs.cc/book/4/4589/' --compressed -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0' -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8' -H 'Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2' -H 'Accept-Encoding: gzip, deflate, br, zstd' -H 'Connection: keep-alive' -H 'Referer: https://www.24kxs.cc/book/4/4589/26534184.html' -H 'Cookie: bcolor=; font=; size=; fontcolor=; width=' -H 'Upgrade-Insecure-Requests: 1' -H 'Sec-Fetch-Dest: document' -H 'Sec-Fetch-Mode: navigate' -H 'Sec-Fetch-Site: same-origin' -H 'Sec-Fetch-User: ?1' -H 'Priority: u=0, i' -H 'TE: trailers'
 # google-chrome --remote-debugging-port=9223 --user-data-dir=/opt/ChromeProfile2 --no-sandbox
 # google-chrome --remote-debugging-port=8687 --user-data-dir=/var/chrome-profile --no-sandbox
 # 命令行启动 Chrome（确保关闭所有已运行实例）
@@ -28,8 +28,8 @@ def get_content(url='', file_name=''):
     # asyncio.run(get_chapter_list(url, file_name, 299))
     url = "http://www.4xiaoshuo.org/162/162265/"
     file_name = "仙人"
-    start = 2179
-    end = start + 8
+    start = 2181
+    end = start + 3
     asyncio.run(get_chapter_list(url, file_name, start, end))
 
 async def get_chapter_list(url='', file_name='', start=0, end=9999):
@@ -75,7 +75,7 @@ async def get_chapter_list(url='', file_name='', start=0, end=9999):
             f.write(chapter[2])
             f.write("\n")
             # if str(chapter[1]).startswith('0'):
-            #     f.write(f"第{index + 1}章 {chapter[1]}")
+            #     f.write(f"第{index + 1}章{chapter[1]}")
             #     f.write(chapter[2])
             #     f.write("\n")
             #     index += 1
