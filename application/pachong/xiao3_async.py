@@ -16,10 +16,10 @@ headers = {
 
 def get_content(url='', file_name=''):
     # 爬取的网址 以及 文件名
-    url = "https://www.ruwen5.org/dushu/111875175/"
-    base_url = "https://www.ruwen5.org"
-    file_name = "七零"
-    asyncio.run(get_chapter_list(url, base_url, file_name, 0,2))
+    url = "https://www.egpic.cn/txt/9VfDHK.html"
+    base_url = "https://www.egpic.cn/"
+    file_name = "侯门老祖"
+    asyncio.run(get_chapter_list(url, base_url, file_name, 0,100))
 
 
 async def get_chapter_list(url='', base_url='', file_name='', start=0, end=9999):
@@ -27,7 +27,7 @@ async def get_chapter_list(url='', base_url='', file_name='', start=0, end=9999)
     output_file = f"static/txt/{file_name}.txt"
     # 发送HTTP请求
     response = requests.get(url,headers=headers)
-    # response.encoding = response.apparent_encoding  # 自动检测编码
+    response.encoding = response.apparent_encoding  # 自动检测编码
 
     # if response.status_code == 200:
     response.raise_for_status()  # 检查请求是否成功
@@ -35,8 +35,7 @@ async def get_chapter_list(url='', base_url='', file_name='', start=0, end=9999)
     soup = BeautifulSoup(response.text, 'html.parser')
     # print("soup", soup)
     # 查找目录列表
-    # chapter_list = soup.select('.box_con dl dd a')
-    chapter_list = soup.select('.inner dl dd a')
+    chapter_list = soup.select('.box_con dl dd a')
     # chapter_list = soup.select('.all ul li a')
     # print("chapter_list", chapter_list)
     print("chapter_list", len(chapter_list))
@@ -47,14 +46,14 @@ async def get_chapter_list(url='', base_url='', file_name='', start=0, end=9999)
     for chapter in chapter_list:
         chapter_name = chapter.text.strip()
         # title = chapter.get_text(strip=True)
-        chapter_url = base_url + chapter['href']
+        chapter_url = chapter['href']
         chapters.append((chapter_name, chapter_url))
-        chapter_url = chapter_url.replace('.html', '_2.html')
-        chapters.append(['', chapter_url])
+        # chapter_url = chapter_url.replace('.html', '_2.html')
+        # chapters.append(['', chapter_url])
 
     # print("chapters", chapters)
     print("chapters", len(chapters))
-    chapters = chapters[12:]
+    # chapters = chapters[9:]
     chapters = chapters[start:end]
     # 限制并发数量
     semaphore = asyncio.Semaphore(10)  # 限制最多同时10个请求
@@ -82,42 +81,37 @@ async def get_chapter_list(url='', base_url='', file_name='', start=0, end=9999)
     print('行数  ', len(lines))
     with open(output_file, 'w', encoding='utf-8') as f:
         for line in lines:
-            if '\n' != line:
-                # f.write('\n')
-                # f.write(line)
-                f.write('#    \n')
-                f.write('#    ' + line)
+            f.write('#    \n')
+            f.write('#    ' + line)
 
 
 async def get_chapter(semaphore, session, index, name, url):
     async with semaphore:
         try:
-            async with session.get(url, ssl=False,headers=headers) as response:
-                time.sleep(0.125)
-                if response.status == 200:
-                    html = await response.text()
-                    # 解析HTML
-                    soup = BeautifulSoup(html, 'html.parser')
-                    # print("soup", soup)
-                    # 查找文章标题
-                    title = soup.find('h1').text.strip()
-                    print(title)
-                    # # 查找目录列表
-                    # content_div = soup.find('div', id='booktxt')
-                    content_div = soup.find('div', id='content')
-                    # soup = soup.find('div', class_='content_read')
-                    # soup = soup.find('div', class_='box_con')
-                    # content_div = soup.find('div', id='content')
-                    # print(content_div)
-                    text_content = content_div.get_text(strip=False, separator='\n')
-                    # text_content = content_div.get_text()
-                    # print(text_content)
+            response = requests.get(url, headers=headers)
+            response.encoding = response.apparent_encoding  # 自动检测编码
 
-                    return index, name, text_content
-                else:
-                    print("response.status==", response.status)
-                    return index, name, "获取失败"
-
+            if response.status_code != 200:
+                print("response.status==", response.status_code)
+                return index, name, "获取失败"
+            response.raise_for_status()  # 检查请求是否成功
+            # 解析HTML
+            soup = BeautifulSoup(response.text, 'html.parser')
+            # print("soup", soup)
+            # 查找文章标题
+            # title = soup.find('h1').text.strip()
+            # print(title)
+            # # 查找目录列表
+            # content_div = soup.find('div', id='booktxt')
+            content_div = soup.find('div', id='content')
+            # soup = soup.find('div', class_='content_read')
+            # soup = soup.find('div', class_='box_con')
+            # content_div = soup.find('div', id='content')
+            # print(content_div)
+            text_content = content_div.get_text(strip=False, separator='\n')
+            # text_content = content_div.get_text()
+            # print(text_content)
+            return index, name, text_content
         except Exception as e:
             print(f"失败 {name}:{url}: {e}")
             return index, name, "获取失败"

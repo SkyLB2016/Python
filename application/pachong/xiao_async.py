@@ -28,8 +28,8 @@ def get_content(url='', file_name=''):
     # asyncio.run(get_chapter_list(url, file_name, 299))
     url = "http://www.4xiaoshuo.org/162/162265/"
     file_name = "仙人"
-    start = 2181
-    end = start + 3
+    start = 2208
+    end = start + 20
     asyncio.run(get_chapter_list(url, file_name, start, end))
 
 async def get_chapter_list(url='', file_name='', start=0, end=9999):
@@ -45,6 +45,7 @@ async def get_chapter_list(url='', file_name='', start=0, end=9999):
 
     # 查找目录列表
     chapter_list = soup.find('div', class_='listmain').find_all('a')
+    # chapter_list = soup.select('.box_con dl dd a')
     # print("chapter_list",chapter_list)
 
     # 存储章节信息
@@ -87,8 +88,8 @@ async def get_chapter_list(url='', file_name='', start=0, end=9999):
     with open(output_file, 'w', encoding='utf-8') as f:
         for line in lines:
             if '请记住本书首发域名' not in line:
-                # f.write(line)
-                f.write('#    ' + line)
+                f.write(line)
+                # f.write('#    ' + line)
 
 
 async def get_chapter(semaphore, session, index, name, url):
