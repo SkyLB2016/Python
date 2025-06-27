@@ -3,12 +3,12 @@ import fitz  # PyMuPDF
 from application import tools
 
 
-def convert_pdf_to_images(pdf_file, out_path, offset=1, zoom_x=2.0, zoom_y=2.0):
+def convert_pdf_to_images(pdf_file, out_path, offset=0, zoom_x=2.0, zoom_y=2.0):
     """
     Description: 把 pdf 文件转成图片
     * @param pdf_file pdf_new 文件路径
     * @param out_path 图片保存路径
-    * @param offset 文件后缀开始位置（拆解多个pdf文件时的时候会用到）
+    * @param offset 文件后缀开始位置（拆解多个pdf文件时的时候会用到）,不同文件拆出的图片保存到同一目录下，每次执行的偏移量
     * @param zoom_x = 2  # 水平缩放系数
     * @param zoom_y = 2  # 垂直缩放系数
     """

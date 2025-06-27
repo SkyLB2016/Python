@@ -28,8 +28,8 @@ def get_content(url='', file_name=''):
     # asyncio.run(get_chapter_list(url, file_name, 299))
     url = "http://www.4xiaoshuo.org/162/162265/"
     file_name = "仙人"
-    start = 2208
-    end = start + 20
+    start = 2271
+    end = start + 4
     asyncio.run(get_chapter_list(url, file_name, start, end))
 
 async def get_chapter_list(url='', file_name='', start=0, end=9999):
@@ -88,8 +88,8 @@ async def get_chapter_list(url='', file_name='', start=0, end=9999):
     with open(output_file, 'w', encoding='utf-8') as f:
         for line in lines:
             if '请记住本书首发域名' not in line:
-                f.write(line)
-                # f.write('#    ' + line)
+                # f.write(line)
+                f.write('#    ' + line)
 
 
 async def get_chapter(semaphore, session, index, name, url):
@@ -123,3 +123,12 @@ async def get_chapter(semaphore, session, index, name, url):
             print(f"失败 {name}：{url}: {e}")
             return index, name, "获取失败"
         # finally:semaphore
+#   利大于弊。
+#     
+#    非常时期，别只盯着次要矛盾不放。
+#     
+#    全是好处而没有副作用，天底下哪有这种好事？
+#     
+#    此次国君会晤之后，牟国得到苍晏支持，与贝迦的战斗更加迂回但坚决。
+#     
+#    两个大国之间的激烈战争，并没像很多人期待的那样迅速结束，它从秋天打到来年春天，然后又到了盛夏，还没有一点儿要停手的意思。		

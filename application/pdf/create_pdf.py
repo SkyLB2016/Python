@@ -204,39 +204,46 @@ def move_file():
 
 
 def many_file():
+    # 移动文件到指定目录
     # move_file()
+
     # pdf 转图片
-    # dir_path = 'static/pdf_old/正文'
-    # list_file = [
-    #     dir_path + "/" + file_str
-    #     for file_str in os.listdir(dir_path)
-    #     if os.path.isfile(dir_path + "/" + file_str) and os.path.splitext(file_str)[1] == '.pdf'
-    # ]
-    # print(len(list_file))
-    # list_file.sort()
-    # index = 0
-    # list_file_1 = list_file[6:]
-    # list_file_2 = list_file[:6]
-    # out_path = 'static/pdf_images/正文'
-    # for file in list_file_1:
-    #     print(file)
-    #     index = pdf_to_image.convert_pdf_to_images(file, out_path, index + 1)
-    #     print(index)
-    # for file in list_file_2:
-    #     print(file)
-    #     index = pdf_to_image.convert_pdf_to_images(file, out_path, index + 1)
-    #     print(index)
+    dir_path = 'static/pdf_old/正文'
+    list_file = [
+        dir_path + "/" + file_str
+        for file_str in os.listdir(dir_path)
+        if os.path.isfile(dir_path + "/" + file_str) and os.path.splitext(file_str)[1] == '.pdf'
+    ]
+    print(len(list_file))
+    list_file.sort()
+    index = 0
+    list_file_1 = list_file[6:]
+    list_file_2 = list_file[:6]
+    out_path = 'static/pdf_images/正文'
+    for file in list_file_1:
+        print(file)
+        index = pdf_to_image.convert_pdf_to_images(file, out_path, index + 1)
+        print(index)
+    for file in list_file_2:
+        print(file)
+        index = pdf_to_image.convert_pdf_to_images(file, out_path, index + 1)
+        print(index)
 
     image_path = 'static/pdf_images/正文'
     save_path = 'static/pdf_new/阅读'
+    file_name="寒假阅读理解"
     # type_mode，1课本模式，2试卷模式
-    create_pdf_two(image_path, save_path, "寒假阅读理解", 1)
+    create_pdf_two(image_path, save_path, file_name, 1)
 
 
 def main():
-    file_name = '一（下）语文高频考点通关密卷'
-    # pdf_to_img(file_name)
-    image_to_pdf(file_name, 2)
+    file_name = '25年秋季新版二年级上册生字贴'
+    # offset = pdf_to_img(file_name)
+    create_pdf(file_name)
+    # image_to_pdf(file_name, 1,100)
+    # file_name = '语文二年级上2025新版二类'
+    # offset = pdf_to_img(file_name,offset+1)
+#     image_to_pdf(file_name, 1,1)
 
     # file_name = '一年级数学下册人教版25春'
     # pdf_to_img(file_name)
@@ -247,12 +254,12 @@ def main():
     # create_pdf(file_name)
 
 
-def pdf_to_img(file_name):
+def pdf_to_img(file_name,offset=0):
     # 1.pdf_new 转成图片
     print("pdf文件拆分成图片")
     pdf_file = f'static/pdf_old/{file_name}.pdf'
     out_path = f'static/pdf_images/{file_name}'
-    pdf_to_image.convert_pdf_to_images(pdf_file, out_path)
+    return pdf_to_image.convert_pdf_to_images(pdf_file, out_path,offset)
     # pdf_to_image.convert_a4_to_a5(pdf_file, out_path)
 
 
