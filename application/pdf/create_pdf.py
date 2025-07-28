@@ -231,19 +231,50 @@ def many_file():
 
     image_path = 'static/pdf_images/正文'
     save_path = 'static/pdf_new/阅读'
-    file_name="寒假阅读理解"
+    file_name = "寒假阅读理解"
     # type_mode，1课本模式，2试卷模式
     create_pdf_two(image_path, save_path, file_name, 1)
 
 
 def main():
-    file_name = '25年秋季新版二年级上册生字贴'
+    # file_name = '25年秋季新版二年级上册生字贴'
     # offset = pdf_to_img(file_name)
-    create_pdf(file_name)
     # image_to_pdf(file_name, 1,100)
     # file_name = '语文二年级上2025新版二类'
     # offset = pdf_to_img(file_name,offset+1)
-#     image_to_pdf(file_name, 1,1)
+    # image_to_pdf(file_name, 1,1)
+
+    # 冀教版九年级全一册英语单词中译英默写清单.pdf
+    # 2024年河北省中考：数学.pdf
+    # 2024年河北省中考：物理.pdf
+    # 2025年河北省初中毕业生学业水平考试：物理.pdf
+    # 冀教版九年级全一册英语单词英译中默写清单.pdf
+
+    file_name = '冀教版九年级全一册英语单词中译英默写清单'
+    # pdf_to_img(file_name)
+    image_to_pdf(file_name, 1, 20)
+    file_name = '2024年河北省中考：数学'
+#     pdf_to_img(file_name)
+    image_to_pdf(file_name, 1, 20)
+    file_name = '2024年河北省中考：物理'
+#     pdf_to_img(file_name)
+    image_to_pdf(file_name, 1, 20)
+    file_name = '2025年河北省初中毕业生学业水平考试：物理'
+#     pdf_to_img(file_name)
+    image_to_pdf(file_name, 1, 20)
+    file_name = '冀教版九年级全一册英语单词英译中默写清单'
+#     pdf_to_img(file_name)
+    image_to_pdf(file_name, 1, 20)
+
+    # file_name = '2.必做：表内乘法的认识与练习(1)（打印前1-20页即可，答案可以不打印）'
+    # #     pdf_to_img(file_name)
+    # image_to_pdf(file_name, 1, 20)
+    # file_name = '2.必做：表内乘法的认识与练习（2）'
+    # #     pdf_to_img(file_name)
+    # image_to_pdf(file_name, 1, 20)
+    # file_name = '表内乘法的认识'
+    # #     pdf_to_img(file_name)
+    # create_pdf(file_name)
 
     # file_name = '一年级数学下册人教版25春'
     # pdf_to_img(file_name)
@@ -254,12 +285,12 @@ def main():
     # create_pdf(file_name)
 
 
-def pdf_to_img(file_name,offset=0):
+def pdf_to_img(file_name, offset=0):
     # 1.pdf_new 转成图片
     print("pdf文件拆分成图片")
     pdf_file = f'static/pdf_old/{file_name}.pdf'
     out_path = f'static/pdf_images/{file_name}'
-    return pdf_to_image.convert_pdf_to_images(pdf_file, out_path,offset)
+    return pdf_to_image.convert_pdf_to_images(pdf_file, out_path, offset)
     # pdf_to_image.convert_a4_to_a5(pdf_file, out_path)
 
 
@@ -274,3 +305,4 @@ def image_to_pdf(file_name, type_mode=1, group=20):
 
     # 2.图片生成正方多个个pdf
     create_pdf_two(image_path, save_path, file_name, type_mode, group)
+

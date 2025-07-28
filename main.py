@@ -33,8 +33,8 @@ learn.learn_method()
 # pachong_rj.download_images(url, save_folder="static/pdf_images")
 
 # 专项专用
-xiao_async.get_content()
-# xiao1_async.get_content()
+# xiao_async.get_content()
+xiao1_async.get_content()
 # xiao2_async.get_content()
 # xiao3_async.get_content()
 # 古诗文.get_content()

@@ -12,6 +12,12 @@ from bs4 import BeautifulSoup
 # usr/bin/google-chrome
 # DevTools listening on ws://127.0.0.1:9223/devtools/browser/e949bf00-aac2-4529-9886-0a236e8ece34
 
+#   利大于弊。
+#
+#    非常时期，别只盯着次要矛盾不放。
+#
+#    全是好处而没有副作用，天底下哪有这种好事？
+
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.1234.567 Safari/537.36',
     # 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
@@ -23,12 +29,9 @@ headers = {
 # 爬取 4小说 网站文本爬取
 def get_content(url='', file_name=''):
     # 爬取的网址 以及 文件名
-    # url = "http://www.4xiaoshuo.org/198/198862/"
-    # file_name = "没钱修什么仙"
-    # asyncio.run(get_chapter_list(url, file_name, 299))
     url = "http://www.4xiaoshuo.org/162/162265/"
     file_name = "仙人"
-    start = 2271
+    start = 2314
     end = start + 4
     asyncio.run(get_chapter_list(url, file_name, start, end))
 
@@ -123,12 +126,3 @@ async def get_chapter(semaphore, session, index, name, url):
             print(f"失败 {name}：{url}: {e}")
             return index, name, "获取失败"
         # finally:semaphore
-#   利大于弊。
-#     
-#    非常时期，别只盯着次要矛盾不放。
-#     
-#    全是好处而没有副作用，天底下哪有这种好事？
-#     
-#    此次国君会晤之后，牟国得到苍晏支持，与贝迦的战斗更加迂回但坚决。
-#     
-#    两个大国之间的激烈战争，并没像很多人期待的那样迅速结束，它从秋天打到来年春天，然后又到了盛夏，还没有一点儿要停手的意思。		
