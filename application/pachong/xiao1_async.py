@@ -12,35 +12,20 @@ headers = {
     'Connection': 'keep-alive',
     'Accept-Language': 'en-US,en;q=0.9'
 }
+#兽世：没想到吧，我把自己上交了
+# 转生成野猪，开局先吃一个月草
+# 这条龙真的没问题吗
+# 魔法没前途
 
 
 def get_content(url='', file_name=''):
+    # https://www.38xs.com/251074/
+    # https://www.77shu.net/xiaoshuo/2053307.html
     # 爬取的网址 以及 文件名
-    # url = "https://www.ruwen5.org/dushu/111910077/"
-    # base_url = "https://www.ruwen5.org"
-    # file_name = "仙帝大人今天也在都市努力躺平"
-    # asyncio.run(get_chapter_list(url, base_url, file_name, 0, 100))
-    # url = "https://www.ruwen5.org/dushu/111769663/"
-    # base_url = "https://www.ruwen5.org"
-    # file_name = "喂,修仙界有人诈骗1"
-    # asyncio.run(get_chapter_list(url, base_url, file_name, 0, 300))
-    #
-    # url = "https://www.ruwen5.org/dushu/111328462/"
-    # base_url = "https://www.ruwen5.org"
-    # file_name = "山神娘娘"
-    # asyncio.run(get_chapter_list(url, base_url, file_name, 0, 300))
-
-    # url = "https://www.ruwen5.org/dushu/111915804/"
-    # base_url = "https://www.ruwen5.org"
-    # file_name = "异界求生"
-    # asyncio.run(get_chapter_list(url, base_url, file_name, 0, 300))
-    # url = "https://www.ruwen5.org/dushu/111905803/"
-    # base_url = "https://www.ruwen5.org"
-    # file_name = "火箭"
-    # asyncio.run(get_chapter_list(url, base_url, file_name, 0, 300))
-    file_name = "山神娘娘"
-    # file_name = "山神娘娘"
-    get_text("里栖",file_name)
+    url = "https://www.ruwen5.org/dushu/111883490/"
+    base_url = "https://www.ruwen5.org"
+    file_name = "mfmqt"
+    asyncio.run(get_chapter_list(url, base_url, file_name, 0, 100))
 
 
 def get_text(text='', file_name=''):
@@ -56,6 +41,8 @@ def get_text(text='', file_name=''):
             if text in line:
                 f.write('#    \n')
                 f.write(line)
+
+
 async def get_chapter_list(url='', base_url='', file_name='', start=0, end=9999):
     # 输出地址
     output_file = f"static/txt/{file_name}.txt"
@@ -76,27 +63,26 @@ async def get_chapter_list(url='', base_url='', file_name='', start=0, end=9999)
     print("chapter_list", len(chapter_list))
 
     # 存储章节信息
-    chapters = []
+    chapters_old = []
 
     for chapter in chapter_list:
         chapter_name = chapter.text.strip()
         # title = chapter.get_text(strip=True)
         chapter_url = base_url + chapter['href']
-        chapters.append((chapter_name, chapter_url))
-        chapters.append(['', chapter_url.replace('.html', '_2.html')])
-        chapters.append(['', chapter_url.replace('.html', '_3.html')])
-        # chapters.append(['', chapter_url.replace('.html', '_4.html')])
-        # chapters.append(['', chapter_url.replace('.html', '_5.html')])
-        # chapters.append(['', chapter_url.replace('.html', '_6.html')])
-        # chapters.append(['', chapter_url.replace('.html', '_7.html')])
-        # chapters.append(['', chapter_url.replace('.html', '_8.html')])
-        # chapters.append(['', chapter_url.replace('.html', '_9.html')])
+        chapters_old.append((chapter_name, chapter_url))
 
-    # print("chapters", chapters)
-    print("chapters", len(chapters))
-    # chapters = chapters[108:]
-    chapters = chapters[36:]
-    chapters = chapters[start:end]
+    # print("chapters_old", chapters_old)
+    print("chapters_old", len(chapters_old))
+    # chapters_old = chapters_old[108:]
+    chapters_old = chapters_old[12:]
+    chapters_old = chapters_old[start:end]
+
+    chapters = []
+    for chapter in chapters_old:
+        chapters.append([chapter[0], chapter[1]])
+        chapters.append(['', chapter[1].replace('.html', '_2.html')])
+        chapters.append(['', chapter[1].replace('.html', '_3.html')])
+
     # 限制并发数量
     semaphore = asyncio.Semaphore(10)  # 限制最多同时10个请求
 
@@ -147,7 +133,7 @@ async def get_chapter(semaphore, session, index, name, url):
     async with semaphore:
         try:
             async with session.get(url, ssl=False, headers=headers) as response:
-                time.sleep(0.25)
+                time.sleep(0.125)
                 if response.status == 200:
                     html = await response.text()
                     # 解析HTML
