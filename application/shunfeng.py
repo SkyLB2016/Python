@@ -7,6 +7,7 @@
 @Description: 
 """
 import datetime
+import time
 
 import requests
 import xlrd
@@ -19,14 +20,7 @@ import aiohttp
 def check_path(path):
     if os.path.exists(path):
         return
-    paths = path.split('/')
-    temp = ""
-    for text in paths:
-        if not text:
-            continue
-        temp = f"{temp}{text}/"
-        if not os.path.exists(temp):
-            os.mkdir(temp)
+    os.makedirs(path)
 
 
 # 限制并发数量
@@ -36,12 +30,12 @@ semaphore = asyncio.Semaphore(10)  # 限制最多同时10个请求
 # 读取Excel文件
 async def analysis_excel_body(dir_path):
     try:
-        excel_cursor = xlrd.open_workbook('file/江西兴助网络科技有限公司_202411.xlsx', encoding_override='utf8')
+        excel_cursor = xlrd.open_workbook('file/江西兴助网络科技有限公司_202506.xlsx', encoding_override='utf8')
         sheets = excel_cursor.sheet_names()
         print("sheets", sheets)
         sheet_cursor = excel_cursor.sheet_by_index(0)
         rows = sheet_cursor.nrows
-        print('共' + str(rows - 1) + '人')
+        print('excel表中共有' + str(rows - 1) + '人')
         # excel_result = []
         task_all = []
         async with aiohttp.ClientSession() as session:
@@ -60,28 +54,33 @@ async def analysis_excel_body(dir_path):
                 check_path(save_path)
                 # 文件夹内包含4个文件，分别为 身份证正面图片、身份证反面图片、身份证手持图片、协议信息，文件命名规则：姓名 - 手机号 - 身份证号 - 链接对应的表头【例：张旭 - 133156523 - 130324200 - 身份证正面图片.jpg】
                 # 添加任务
-                tasks.append(
-                    asyncio.create_task(save_file(session, user_path + "-身份证正面图片.jpg", row[6], save_path)))
-                tasks.append(
-                    asyncio.create_task(save_file(session, user_path + "-身份证反面图片.jpg", row[7], save_path)))
-                tasks.append(
-                    asyncio.create_task(save_file(session, user_path + "-身份证手持图片.jpg", row[8], save_path)))
-                tasks.append(asyncio.create_task(save_file(session, user_path + "-协议信息.pdf", row[9], save_path)))
+                tasks.append(asyncio.create_task(
+                    save_file(session, user_path + "-身份证正面图片.jpg", row[6], save_path, rows_number))
+                )
+                tasks.append(asyncio.create_task(
+                    save_file(session, user_path + "-身份证反面图片.jpg", row[7], save_path, rows_number))
+                )
+                tasks.append(asyncio.create_task(
+                    save_file(session, user_path + "-身份证手持图片.jpg", row[8], save_path, rows_number))
+                )
+                tasks.append(asyncio.create_task(
+                    save_file(session, user_path + "-协议信息.pdf", row[9], save_path, rows_number))
+                )
             # print('第', rows_number, '人')
             # 开始执行
             await asyncio.gather(*tasks)
-        # print(excel_result)
-        print('共' + str(rows - 1) + '人')
+        # print('共' + str(rows - 1) + '人')
     except Exception as e:
-        print(e)
+        print("错误信息", e)
 
 
-async def save_file(session, name, url, save_path):
+async def save_file(session, name, url, save_path, row_number):
     if url is None or url.strip() == "":
         return
     async with semaphore:
         try:
             async with session.get(url, ssl=False) as response:
+                time.sleep(0.25)
                 if response.status == 200:
                     # 下载数据
                     file_name = os.path.join(save_path, str(name))
@@ -92,7 +91,7 @@ async def save_file(session, name, url, save_path):
                                 break
                             file.write(chunk)
                 else:
-                    print(f"Failed to download {url}, status code: {response.status}")
+                    print(f"保存失败，行数{row_number+1};地址: {url}, status code: {response.status}")
                     print(f'保存失败，路径 {save_path}')
         except Exception as e:
             print(f"Error downloading {url}: {e}")
@@ -179,6 +178,7 @@ start_time = datetime.datetime.now()
 start_stamp = start_time.timestamp()
 print(start_time)
 dir_path = '众包骑士信息'
+check_path(dir_path)
 # 启动事件循环
 asyncio.run(analysis_excel_body(dir_path))
 create_zip(dir_path)
