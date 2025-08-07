@@ -10,7 +10,7 @@ import bcrypt
 
 from application import learn
 from application.pachong import xiao_async, 古诗文, xiao2_async, xiao1_async, text_async, xiao3_async, xiao4_async, \
-    xiao5_async
+    xiao5_async, xiao6_async
 from application.pdf import create_pdf, pdf_to_image, create_pdf2
 from application.text import text_utils
 
@@ -37,7 +37,8 @@ learn.learn_method()
 # xiao_async.get_content()
 # xiao1_async.get_content()
 # xiao4_async.get_content()
-xiao5_async.get_content()
+# xiao5_async.get_content()
+xiao6_async.get_content()
 # xiao2_async.get_content()
 # xiao3_async.get_content()
 # 古诗文.get_content()

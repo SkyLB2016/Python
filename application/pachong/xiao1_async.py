@@ -12,20 +12,20 @@ headers = {
     'Connection': 'keep-alive',
     'Accept-Language': 'en-US,en;q=0.9'
 }
-#兽世：没想到吧，我把自己上交了
-# 转生成野猪，开局先吃一个月草
-# 这条龙真的没问题吗
-# 魔法没前途
 
 
 def get_content(url='', file_name=''):
     # https://www.38xs.com/251074/
     # https://www.77shu.net/xiaoshuo/2053307.html
     # 爬取的网址 以及 文件名
-    url = "https://www.ruwen5.org/dushu/111883490/"
+    # url = "https://www.ruwen5.org/dushu/111883490/"
+    # base_url = "https://www.ruwen5.org"
+    # file_name = "mfmqt"
+    # asyncio.run(get_chapter_list(url, base_url, file_name, 0, 100))
+    url = "https://www.ruwen5.org/dushu/111890070/"
     base_url = "https://www.ruwen5.org"
-    file_name = "mfmqt"
-    asyncio.run(get_chapter_list(url, base_url, file_name, 0, 100))
+    file_name = "qmxl"
+    asyncio.run(get_chapter_list(url, base_url, file_name, 100))
 
 
 def get_text(text='', file_name=''):

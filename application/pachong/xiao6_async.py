@@ -39,14 +39,16 @@ async def get_chapter_list(url='', base_url='', file_name='', start=0, end=9999)
     # 存储章节信息
     chapters_old = []
 
-    for chapter in chapter_list:
-        chapter_name = chapter.text.strip()
-        chapter_url = base_url + chapter['href']
-        chapters_old.append([chapter_name, chapter_url])
-    # chapters_old = chapters_old[12:]
-    chapters = chapters_old[start:end]
+    # for chapter in chapter_list:
+    #     chapter_name = chapter.text.strip()
+    #     chapter_url = base_url + chapter['href']
+    #     chapters_old.append([chapter_name, chapter_url])
+    # # chapters_old = chapters_old[12:]
+    # chapters = chapters_old[start:end]
 
-    # chapters = []
+    chapters = []
+    for i in range(100,250):
+        chapters.append(["", f"https://www.220book.com/book/P4V4-{i}.html"])
     # for chapter in chapters_old:
     #     chapters.append([chapter[0], chapter[1]])
     #     chapters.append(['', chapter[1].replace('.html', '_2.html')])
@@ -85,7 +87,7 @@ async def get_chapter_list(url='', base_url='', file_name='', start=0, end=9999)
     print('行数  ', len(lines))
     with open(output_file, 'w', encoding='utf-8') as f:
         for line in lines:
-            if '\n' != line:
+            if '\n' != line and 'http://www.220book.com' not in line:
                 # f.write(line)
                 f.write('#    \n')
                 f.write('#    ' + line)
@@ -113,7 +115,7 @@ async def get_chapter(semaphore, session, index, name, url):
                     # text_content = content_div.get_text()
                     # print(text_content)
 
-                    return index, name, text_content
+                    return index, title, text_content
                 else:
                     print("response.status==", response.status)
                     return index, name, "获取失败"
